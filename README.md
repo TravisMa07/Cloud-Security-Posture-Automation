@@ -70,5 +70,40 @@ Before you begin, ensure you have the following installed and configured:
   OPA is used to implement policy-as-code for compliance validation of your cloud resources.
 
 
+# Cloud Security Posture Automation Walkthrough
 
+## Step 1: Setup Development Environment & Azure Access
+- Install Python, create virtual env
+- Install Azure CLI and authenticate
+- Install Terraform
+- Install Open Policy Agent (OPA)
 
+## Step 2: Azure Resource Inventory & Data Collection
+- Use Azure SDK/CLI to list resources
+- Pull configuration details for key resource types (storage, VMs, network, IAM)
+- Store data locally (JSON, database, etc.)
+
+## Step 3: Compliance Rule Development
+- Implement CIS benchmark and NIST CSF rules in Python
+- Write OPA policies for some rules (optional/parallel)
+- Test rule evaluation logic
+
+## Step 4: Reporting Module
+- Design JSON report structure
+- Implement report generation (JSON + HTML)
+- Test report clarity and completeness
+
+## Step 5: Automated Remediation
+- Write Terraform modules for fixing common misconfigs
+- Integrate remediation trigger in Python
+- Test remediation end-to-end on test environment
+
+## Step 6: Continuous Monitoring & Scheduling
+- Set up cron jobs or Task Scheduler for periodic scans
+- Automate report generation and remediation triggers
+- Add alerting or notification (email/Slack) if desired
+  
+## Step 7: Documentation & Final Touches
+- Write detailed guides and update README
+- Add screenshots and usage examples
+- Clean up code and add tests if possible
