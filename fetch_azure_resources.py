@@ -18,7 +18,8 @@ compute_client = ComputeManagementClient(credential, subscription_id)
 storage_client = StorageManagementClient(credential, subscription_id)
 network_client = NetworkManagementClient(credential, subscription_id)
 
-
+# Basic level of resource pulling implemented here.
+# Can be expanded later to include more detailed configuration information per resource type.
 def fetch_azure_resources():
     resources = []
 
