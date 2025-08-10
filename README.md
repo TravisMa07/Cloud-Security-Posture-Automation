@@ -30,7 +30,7 @@ Use the Azure CLI (az login) or a service principal to securely connect your scr
 Query Azure resources (e.g., Storage Accounts, Network Security Groups, IAM roles) through the Azure SDK or CLI to gather their current configuration details.
 
 **3. Evaluate Compliance:**
-Check the retrieved configurations against CIS Benchmarks and NIST Cybersecurity Framework controls. Compliance rules are implemented as Python functions and optionally Open Policy Agent (OPA) policies, which classify configurations as compliant or non-compliant.
+Check the retrieved configurations against CIS Benchmarks and NIST Cybersecurity Framework controls. Compliance rules are implemented as Python functions and Open Policy Agent (OPA) policies, which classify configurations as compliant or non-compliant.
 
 **4. Generate Reports:**
 Produce detailed JSON reports for machine processing and human-readable HTML reports for security teams. These reports highlight misconfigurations, risk severity, and remediation suggestions.
