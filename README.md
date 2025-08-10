@@ -118,10 +118,11 @@ Before you begin, ensure you have the following installed and configured:
     
   - Create Role Assignment (IAM) -- Assign the "Reader" role to yourself
     ![csap 2.1 setup 6](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%202.1%20setup%206.png)
-  
-- Use Azure SDK/CLI to list resources
-- Pull configuration details for key resource types (storage, VMs, network, IAM)
-- Store data locally (JSON, database, etc.)
+
+- **Use Azure Software Development Kit (SDK) in Python to list Azure resources, retrieve configuration details for key resource types (Storage, VMs, Network), and output the collected data to a JSON file for easy analysis.**
+  - Create Python Script to list and retrieve resources. Output it into a JSON file.
+    - Script can be found in ``fetch_azure_resources.py`` in the repository
+    - JSON report output is saved as ``azure_resources.json`` in the repository
 
 ## Step 3: Compliance Rule Development
 - Implement CIS benchmark and NIST CSF rules in Python
