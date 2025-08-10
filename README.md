@@ -98,7 +98,7 @@ Before you begin, ensure you have the following installed and configured:
 ## Step 2: Azure Resource Inventory & Data Collection
 - Create necessary Resources for Project Demostration
   - Creating necessary resources includes: Resource Group, Storage Account, Virtual Machine, Network Security Group (NSG), Associate NSG with VM's Network Interfaces
-    - Can either be done through Azure Web Interface or Azure CLI (demo will be through Azure CLI)
+    - Can either be done through Azure Web Interface and/or Azure CLI (demo will be through Azure CLI)
   - Resource Group Creation: name it anything
     
     ![csap 2.1 setup 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%202.1%20setup%201.png)
