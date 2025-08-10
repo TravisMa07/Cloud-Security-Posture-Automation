@@ -74,8 +74,20 @@ Before you begin, ensure you have the following installed and configured:
 
 ## Step 1: Setup Development Environment & Azure Access
 - Install Python, create virtual env
+  
+![csap1.1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap1.1.png)
 - Install Azure CLI and authenticate
+
+  ![csap1.2 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%201.2%201.png)
+  
+  - In order to ``az login``, a Azure Account is needed. Create a free Azure Account at ``https://azure.microsoft.com/en-us/pricing/purchase-options/azure-account?icid=azurefreeaccount`` Require Credit Card Information
+  
+  ![csap 1.2 2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%201.2%202.png)
+  
 - Install Terraform
+  - Install terraform at ``https://developer.hashicorp.com/terraform/install``. Install version for your machine and extract the .zip in its own dedicated folder on your drive.
+  ![csap 1.3.1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%201.3%201.png)
+  - Under User Variables, click on Path then edit. Add new to your dedicated folder for terraform (``C:\terraform``)
 - Install Open Policy Agent (OPA)
 
 ## Step 2: Azure Resource Inventory & Data Collection
