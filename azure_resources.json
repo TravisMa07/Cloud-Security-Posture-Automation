@@ -1,0 +1,45 @@
+[
+    {
+        "type": "Resource Group",
+        "name": "CSPA-Project-RG",
+        "location": "eastus"
+    },
+    {
+        "type": "Resource Group",
+        "name": "NetworkWatcherRG",
+        "location": "eastus"
+    },
+    {
+        "type": "Virtual Machine",
+        "name": "CSPA-VM1",
+        "location": "eastus",
+        "resource_group": "CSPA-PROJECT-RG"
+    },
+    {
+        "type": "Storage Account",
+        "name": "cspastorage123",
+        "location": "eastus",
+        "resource_group": "CSPA-Project-RG"
+    },
+    {
+        "type": "Network Security Group",
+        "name": "CSPA-test-NSG",
+        "location": "eastus",
+        "resource_group": "CSPA-Project-RG"
+    },
+    {
+        "type": "Network Security Group",
+        "name": "CSPA-VM1NSG",
+        "location": "eastus",
+        "resource_group": "CSPA-Project-RG"
+    },
+    {
+        "type": "network interface",
+        "name": "CSPA-VM1VMNic",
+        "location": "eastus",
+        "resource_group": "CSPA-Project-RG",
+        "ip_configurations": [
+            "10.0.0.4"
+        ]
+    }
+]
