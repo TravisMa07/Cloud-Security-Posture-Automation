@@ -96,6 +96,15 @@ Before you begin, ensure you have the following installed and configured:
   ![csap 1.4.2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%201.4%202.png)
 
 ## Step 2: Azure Resource Inventory & Data Collection
+- Create necessary Resources for Project Demostration
+  - Creating necessary resources includes: Resource Group, Storage Account, Virtual Machine, Network Security Group (NSG), Associate NSG with VM's Network Interfaces
+    - Can either be done through Azure Web Interface or Azure CLI (demo will be through Azure CLI)
+  - Resource Group Creation: name it anything
+    
+    ![csap 2.1 setup 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%202.1%20setup%201.png)
+  - Storage Account Creation: name it anything, select Resource Group just created, Stock-Keeping Unit (SKU) select Standard-LRS (Locally Redundant Storage, Support Account Kinds: Storage, BlobStorage, StorageV2)
+    
+    ![csap 2.1 setup 2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%202.1%20setup%202.png)
 - Use Azure SDK/CLI to list resources
 - Pull configuration details for key resource types (storage, VMs, network, IAM)
 - Store data locally (JSON, database, etc.)
