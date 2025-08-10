@@ -102,9 +102,23 @@ Before you begin, ensure you have the following installed and configured:
   - Resource Group Creation: name it anything
     
     ![csap 2.1 setup 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%202.1%20setup%201.png)
+    
   - Storage Account Creation: name it anything, select Resource Group just created, Stock-Keeping Unit (SKU) select Standard-LRS (Locally Redundant Storage, Support Account Kinds: Storage, BlobStorage, StorageV2)
     
     ![csap 2.1 setup 2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%202.1%20setup%202.png)
+    
+  - Virtual Machine Creation: Choose any supported Ubuntu image (e.g., Ubuntu2204). If you encounter errors during VM creation, try selecting a different VM --size .
+ 
+    ![csap 2.1 setup 3](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%202.1%20setup%203.png)
+  - Network Security Group (NSG) Creation
+    ![csap 2.1 setup 4](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%202.1%20setup%204.png)
+    
+  - Assign NSG to VM's Network Interface
+    ![csap 2.1 setup 5](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%202.1%20setup%205.png)
+    
+  - Create Role Assignment (IAM) -- Assign the "Reader" role to yourself
+    ![csap 2.1 setup 6](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%202.1%20setup%206.png)
+  
 - Use Azure SDK/CLI to list resources
 - Pull configuration details for key resource types (storage, VMs, network, IAM)
 - Store data locally (JSON, database, etc.)
