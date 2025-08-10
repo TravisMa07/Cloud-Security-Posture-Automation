@@ -75,7 +75,7 @@ Before you begin, ensure you have the following installed and configured:
 ## Step 1: Setup Development Environment & Azure Access
 - Install Python, create virtual env
   
-![csap1.1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap1.1.png)
+  ![csap1.1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap1.1.png)
 - Install Azure CLI and authenticate
 
   ![csap1.2 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%201.2%201.png)
@@ -88,7 +88,12 @@ Before you begin, ensure you have the following installed and configured:
   - Install terraform at ``https://developer.hashicorp.com/terraform/install``. Install version for your machine and extract the .zip in its own dedicated folder on your drive.
   ![csap 1.3.1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%201.3%201.png)
   - Under User Variables, click on Path then edit. Add new to your dedicated folder for terraform (``C:\terraform``)
+  ![csap 1.3.2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%201.3%202.png)
 - Install Open Policy Agent (OPA)
+  - Install OPA at ``https://www.openpolicyagent.org/docs?current-os=windows#1-download-opa``. Install version for your machine and move the .exe file into its own dedicate folder on your drive.
+  ![csap 1.4.1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%201.4%201.png)
+    - Under User Variables, click on path then edit. Add new to your dedicated folder for OPA (``C:\Tools\OPA``)
+  ![csap 1.4.2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%201.4%202.png)
 
 ## Step 2: Azure Resource Inventory & Data Collection
 - Use Azure SDK/CLI to list resources
