@@ -129,13 +129,15 @@ Before you begin, ensure you have the following installed and configured:
 - Implement CIS benchmark and NIST CSF rules in Python
   - Key focus area for Azure resources:
     - Storage Accounts:
-      - Ensure Encryption at rest is enabled
-      - Check if secure transfer required is enabled
+      - **Encryption at rest enabled:** Check ``encryption_enabled`` is ``True``
+      - **Secure transfer required:** Check ``secure_transfer_required`` is ``True``
     - Virtual Machines
-      - Check if proper tags are assigned (e.g., environment, owner)
-      - Verify if VMs are not exposed publicly (e.g., no public IP or NSG blocking inbound RDP/SSH)
+      - **Proper tags assigned:** Check presence of tags like ``environment`` and ``owner``
+      - **No public exposure:** Check if public_ips list is empty
+        - Additonally cross-check NSGs for rules blocking inbound RDP(3389) and SSH(22)
     - Network Security Groups
-      - Identify if there are any overly permissive inbound security rules (like open to 0.0.0.0/0 on critical ports)
+      - No overly permissive inbound rules:
+        - Identify inbound rules with ``"access": "Allow"`` and ``"source_address_prefix": "0.0.0.0/0" on critical ports (e.g., 22, 3389, 443, 80)
 
 
 - Write OPA policies for some rules (optional/parallel)
