@@ -14,7 +14,7 @@
         "name": "CSPA-VM1",
         "location": "eastus",
         "resource_group": "CSPA-PROJECT-RG",
-        "tags": {},
+        "tags": [],
         "public_ips": [
             "172.178.10.164"
         ]

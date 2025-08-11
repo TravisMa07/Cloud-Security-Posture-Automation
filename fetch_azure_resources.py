@@ -39,36 +39,39 @@ def fetch_azure_resources():
     # Note: NICs are fetched separately to get detailed IP configurations
     virtual_machines = compute_client.virtual_machines.list_all()
     for vm in virtual_machines:
-        vm_rg = vm.id.split('/')[4]
-        tags = vm.tags if vm.tags else {}
-        public_ips = []
+        vm_resource_group = vm.id.split('/')[4]
+        public_ips = []     
+        if vm.tags:
+            tags = vm.tags
+        else:
+            tags = []
 
         # check NICs attached to VM for public IPs
-        for nic_ref in vm.network_profile.network_interfaces:
-            nic_id = nic_ref.id
+        for nic_reference in vm.network_profile.network_interfaces:
+            nic_id = nic_reference.id
             nic_name = nic_id.split('/')[-1] # extract NIC name from resource ID
-            nic_rg = nic_id.split('/')[4] # extract resource group from resource ID
+            nic_resource_group = nic_id.split('/')[4] # extract resource group from resource ID
             try:
                 # retrieve NIC details using NIC resource group and name
-                nic = network_client.network_interfaces.get(nic_rg, nic_name)
+                nic = network_client.network_interfaces.get(nic_resource_group, nic_name)
 
                 # check each IP configuration on the NIC for a public IP address
                 # Note: public_ip_address is a resource reference, so we need to resolve it
-                for ip_cfg in nic.ip_configurations:
-                    if ip_cfg.public_ip_address:
+                for ip_config in nic.ip_configurations:
+                    if ip_config.public_ip_address:
                         # public_ip_address is a resource reference; try to read actual IP
-                        pip_id = ip_cfg.public_ip_address.id
+                        public_ip_id = ip_config.public_ip_address.id
 
-                        pip_name = pip_id.split('/')[-1] # extract public IP name from resource ID
-                        pip_rg = pip_id.split('/')[4] # extract resource group from public IP resource ID
+                        public_ip_name = public_ip_id.split('/')[-1] # extract public IP name from resource ID
+                        public_ip_resource_group = public_ip_id.split('/')[4] # extract resource group from public IP resource ID
 
                         try:
                             # retrieve the actual public IP resource to get the IP address string
-                            pip = network_client.public_ip_addresses.get(pip_rg, pip_name)
-                            public_ips.append(pip.ip_address)
+                            public_ip = network_client.public_ip_addresses.get(public_ip_resource_group, public_ip_name)
+                            public_ips.append(public_ip.ip_address)
                         except Exception:
                             # If we can't resolve the public IP resource, store the resource id
-                            public_ips.append({"public_ip_id": pip_id})
+                            public_ips.append({"public_ip_id": public_ip_id})
             except Exception:
                 pass
 
@@ -77,7 +80,7 @@ def fetch_azure_resources():
             "type": "Virtual Machine",
             "name": vm.name,
             "location": vm.location,
-            "resource_group": vm_rg,
+            "resource_group": vm_resource_group,
             "tags": tags,
             "public_ips": public_ips
         })
@@ -87,29 +90,29 @@ def fetch_azure_resources():
     # Note: encryption_enabled and secure_transfer_required are extracted from the storage account properties
     storage_accounts = storage_client.storage_accounts.list()
     for account in storage_accounts:
-        sa_rg = account.id.split('/')[4] # extract resoource group associated with the storage account
+        storage_account_resource_group = account.id.split('/')[4] # extract resoource group associated with the storage account
         try:
             # retrieve detailed storage account properties
-            account_props = storage_client.storage_accounts.get_properties(sa_rg, account.name)
+            account_properties = storage_client.storage_accounts.get_properties(storage_account_resource_group, account.name)
         except Exception:
-            account_props = None
+            account_properties = None
 
         # initialize encryption and secure transfer status for compliance checks
         # These may not always be available, so we handle exceptions
         encryption_enabled = None
         secure_transfer_required = None
 
-        if account_props:
+        if account_properties:
 
             # check if encryption for Blob service is enabled
             try:
-                encryption_enabled = bool(account_props.encryption.services.blob.enabled)
+                encryption_enabled = bool(account_properties.encryption.services.blob.enabled)
             except Exception:
                 encryption_enabled = None
 
             # check if secure transfer is required (HTTPS only)
             try:
-                secure_transfer_required = bool(account_props.enable_https_traffic_only)
+                secure_transfer_required = bool(account_properties.enable_https_traffic_only)
             except Exception:
                 secure_transfer_required = None
 
@@ -118,7 +121,7 @@ def fetch_azure_resources():
             "type": "Storage Account",
             "name": account.name,
             "location": account.location,
-            "resource_group": sa_rg,
+            "resource_group": storage_account_resource_group,
             "encryption_enabled": encryption_enabled,
             "secure_transfer_required": secure_transfer_required
         })
@@ -126,17 +129,17 @@ def fetch_azure_resources():
     # fetch Network Security Groups
     # include type (NSG), name, location, resource group, and inbound rules
     # Note: inbound rules are extracted from the security_rules property of the NSG
-    network_sgs = network_client.network_security_groups.list_all()
-    for nsg in network_sgs:
-        nsg_rg = nsg.id.split('/')[4] # extract resource group associated with the NSG
+    network_security_groups = network_client.network_security_groups.list_all()
+    for nsg in network_security_groups:
+        network_security_group_resource_group = nsg.id.split('/')[4] # extract resource group associated with the NSG
 
 
         # try to get detailed NSG properties to ensure all security rules are included
         # use the detailed security rules if available, otherwise use the basic security rules
         # This is to ensure we have the most accurate and complete set of rules
         try:
-            nsg_detail = network_client.network_security_groups.get(nsg_rg, nsg.name)
-            rules_source = nsg_detail.security_rules or []
+            network_security_group_detail = network_client.network_security_groups.get(network_security_group_resource_group, nsg.name)
+            rules_source = network_security_group_detail.security_rules or []
         except Exception:
             rules_source = nsg.security_rules or []
 
@@ -160,7 +163,7 @@ def fetch_azure_resources():
             "type": "Network Security Group",
             "name": nsg.name,
             "location": nsg.location,
-            "resource_group": nsg_rg,
+            "resource_group": network_security_group_resource_group,
             "inbound_rules": inbound_rules
         })
 
@@ -170,28 +173,28 @@ def fetch_azure_resources():
     for nic in network_interfaces:
         ip_configs = []
         has_public_ip = False # flag to check if NIC has a public IP assigned
-        for ip_cfg in nic.ip_configurations:
+        for ip_config in nic.ip_configurations:
 
             # initialize dictionary to hold IP information for each IP configuration
             # Note: private_ip_address is always available, public_ip_address may not be set
             ip_data = {
-                "private_ip": getattr(ip_cfg, "private_ip_address", None) # get private IP address
+                "private_ip": getattr(ip_config, "private_ip_address", None) # get private IP address
             }
 
             # check if public IP address is assigned
-            if getattr(ip_cfg, "public_ip_address", None):
+            if getattr(ip_config, "public_ip_address", None):
                 has_public_ip = True
-                pip_id = ip_cfg.public_ip_address.id # get public IP resource ID
-                pip_name = pip_id.split('/')[-1] # extract public IP resource name from resource ID
-                pip_rg = pip_id.split('/')[4] # extract resource group of the public IP
+                public_ip_id = ip_config.public_ip_address.id # get public IP resource ID
+                public_ip_name = public_ip_id.split('/')[-1] # extract public IP resource name from resource ID
+                public_ip_resource_group = public_ip_id.split('/')[4] # extract resource group of the public IP
 
                 # try to fetch the actual public IP address from the public IP resource
                 # If the public IP resource is not found, we store the resource ID instead
                 try:
-                    pip = network_client.public_ip_addresses.get(pip_rg, pip_name)
-                    ip_data["public_ip"] = pip.ip_address
+                    public_ip = network_client.public_ip_addresses.get(public_ip_resource_group, public_ip_name)
+                    ip_data["public_ip"] = public_ip.ip_address
                 except Exception:
-                    ip_data["public_ip_id"] = pip_id
+                    ip_data["public_ip_id"] = public_ip_id
 
             # append this IP configuration data to the list of IP configs for the NIC
             # this allows us to capture all IP configurations associated with the NIC       
