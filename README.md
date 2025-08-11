@@ -120,6 +120,7 @@ Before you begin, ensure you have the following installed and configured:
     ![csap 2.1 setup 6](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%202.1%20setup%206.png)
 
 - **Use Azure Software Development Kit (SDK) in Python to list Azure resources, retrieve configuration details for key resource types (Storage, VMs, Network), and output the collected data to a JSON file for easy analysis.**
+  - Ensure to capture key resource details for CIS and NIST compliance-related fields. (MUST CAPTURE THESE DETAIL for Step 3: Compliance Rule Development)
   - Create Python Script to list and retrieve resources. Output it into a JSON file.
     - Script can be found in ``fetch_azure_resources.py`` in the repository
     - JSON report output is saved as ``azure_resources.json`` in the repository
