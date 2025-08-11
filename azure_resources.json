@@ -13,33 +13,54 @@
         "type": "Virtual Machine",
         "name": "CSPA-VM1",
         "location": "eastus",
-        "resource_group": "CSPA-PROJECT-RG"
+        "resource_group": "CSPA-PROJECT-RG",
+        "tags": {},
+        "public_ips": [
+            "172.178.10.164"
+        ]
     },
     {
         "type": "Storage Account",
         "name": "cspastorage123",
         "location": "eastus",
-        "resource_group": "CSPA-Project-RG"
+        "resource_group": "CSPA-Project-RG",
+        "encryption_enabled": true,
+        "secure_transfer_required": true
     },
     {
         "type": "Network Security Group",
         "name": "CSPA-test-NSG",
         "location": "eastus",
-        "resource_group": "CSPA-Project-RG"
+        "resource_group": "CSPA-Project-RG",
+        "inbound_rules": []
     },
     {
         "type": "Network Security Group",
         "name": "CSPA-VM1NSG",
         "location": "eastus",
-        "resource_group": "CSPA-Project-RG"
+        "resource_group": "CSPA-Project-RG",
+        "inbound_rules": [
+            {
+                "name": "default-allow-ssh",
+                "access": "Allow",
+                "direction": "Inbound",
+                "protocol": "Tcp",
+                "source_address_prefix": "*",
+                "destination_port_range": "22"
+            }
+        ]
     },
     {
-        "type": "network interface",
+        "type": "Network Interface",
         "name": "CSPA-VM1VMNic",
         "location": "eastus",
         "resource_group": "CSPA-Project-RG",
         "ip_configurations": [
-            "10.0.0.4"
-        ]
+            {
+                "private_ip": "10.0.0.4",
+                "public_ip": "172.178.10.164"
+            }
+        ],
+        "has_public_ip": true
     }
 ]
