@@ -1,6 +1,6 @@
 # Cloud-Security-Posture-Automation
 
-Cloud Security Posture Automation (CSPA) is a Python-based and Terraform-powered framework designed to automatically assess, remediate, and monitor cloud environment configurations for security best practices. This project focuses on identifying misconfigurations, enforcing compliance with CIS Benchmarks, and streamlining security governance across Azure.
+Cloud Security Posture Automation (CSPA) is a Python-based and Terraform-powered framework designed to automatically assess, remediate, and monitor cloud environment configurations for security best practices. This project focuses on identifying misconfigurations, enforcing compliance with CIS Benchmarks & NIST CSF, and streamlining security governance across Azure.
 
 ## Features
 - **Automated Security Audits:** Scans cloud resources for misconfigurations (e.g., storage account encryption and secure transfer settings, VM public exposure, overly permissive network security group rules)
