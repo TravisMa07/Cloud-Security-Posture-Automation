@@ -3,43 +3,43 @@
 Cloud Security Posture Automation (CSPA) is a Python-based and Terraform-powered framework designed to automatically assess, remediate, and monitor cloud environment configurations for security best practices. This project focuses on identifying misconfigurations, enforcing compliance with CIS Benchmarks, and streamlining security governance across Azure.
 
 ## Features
-- **Automated Security Audits:** Scans cloud resources for misconfigurations (e.g., open blob storage container, overly permissive IAM roles, insecure network settings).
-- **Compliance Enforcement:** Validates configurations against CIS Benchmarks and other compliance standards.
+- **Automated Security Audits:** Scans cloud resources for misconfigurations (e.g., storage account encryption and secure transfer settings, VM public exposure, overly permissive network security group rules)
+- **Compliance Enforcement:** Validates configurations against CIS Benchmarks and NIST CSF (Cybersecurity Framework).
 - **Automated Remediation:** Uses Terraform scripts and cloud-native CLI tools to remediate security findings.
 - **Continuous Monitoring:** Scheduled scans to detect new risks in real time.
-- **Reporting:** Generates JSON and HTML reports for security teams.
+- **Reporting:** Generates JSON reports from compliance evaluation scripts.
 
 ## Technology Stack
-- **Cloud Providers:** Azure (mock/test mode available for development)
-- **Languages:** Python, Terraform, Bash
+- **Cloud Providers:** Azure
+- **Languages:** Python, Terraform, Powershell, Azure CLI
 - **Security Tools:** Azure CLI, Open Policy Agent (OPA)
 - **Compliance Frameworks:** CIS Benchmarks, NIST CSF
 
 ## Architecture
 1. **Azure Config** collects and evaluates resource configurations.
 2. **Python Script** pulls compliance data via Azure SDK libraries(e.g.,`azure-mgmt`).
-3. **Rule Engine** checks results against best practices and compliance mappings.
-4. **Reporting Module** outputs a detailed posture report.
+3. **Rule Engine** evaluates the collected data against best practices and compliance frameworks.
+4. **Reporting Module** generates detailed security posture reports.
 
 
 # Detailed Workflow
 **1. Authenticate to Azure:**
-Use the Azure CLI (az login) or a service principal to securely connect your scripts with Azure and gain read/write permissions to cloud resources.
+Use Azure CLI (``az login``) or a service principal to securely authenticate and grant your scripts permissions to access Azure resources.
 
 **2. Scan Cloud Resources:**
-Query Azure resources (e.g., Storage Accounts, Network Security Groups, IAM roles) through the Azure SDK or CLI to gather their current configuration details.
+Query Azure resources (e.g., Storage Accounts, Network Security Groups, Virtual Machines) using Azure SDK scripts to collect their current configuration details.
 
 **3. Evaluate Compliance:**
-Check the retrieved configurations against CIS Benchmarks and NIST Cybersecurity Framework controls. Compliance rules are implemented as Python functions and Open Policy Agent (OPA) policies, which classify configurations as compliant or non-compliant.
+Evaluate the collected configurations against CIS Benchmarks and NIST Cybersecurity Framework controls using Python functions
 
 **4. Generate Reports:**
-Produce detailed JSON reports for machine processing and human-readable HTML reports for security teams. These reports highlight misconfigurations, risk severity, and remediation suggestions.
+Produce detailed JSON reports for automated processing, highlighting misconfigurations, risk severity, and remediation advice.
 
 **5. Automate Remediation:**
-For high-risk findings (e.g., public blob containers, overly permissive IAM roles), execute Terraform modules or Azure CLI commands to automatically correct misconfigurations, improving security posture without manual intervention.
+For critical findings like public blob containers or overly permissive network security group rules, leverage Terraform modules or Azure CLI commands to automatically remediate issues and improve security posture.
 
 **6. Continuous Monitoring:**
-Schedule periodic scans via cron jobs, Windows Task Scheduler, or Azure Automation Runbooks to detect and remediate new risks in real-time, maintaining an up-to-date security posture.
+Schedule periodic scans via Azure Automation Runbooks to detect and remediate new risks in real-time, maintaining an up-to-date security posture.
 
 ## Getting Started
 
@@ -69,6 +69,16 @@ Before you begin, ensure you have the following installed and configured:
   Install the OPA CLI from ``https://www.openpolicyagent.org/docs/latest/#running-opa``.
   OPA is used to implement policy-as-code for compliance validation of your cloud resources.
 
+# Optional: Open Policy Agent (OPA) Integration
+### What is OPA?
+Open Policy Agent (OPA) is a lightweight, general-purpose policy engine that enables a unified platform for policy enforcement across cloud-native stack. It allows you to define compliance rules as code using a declarative language called Rego.
+
+## Why OPA is not used in this project
+While OPA provides a powerful and flexible way to enforce policies across cloud environments, for the scope of this project and to maintain simplicity and clarity, compliance rules are implemented directly in Python. This approach allows for easier customization, debugging, and integration within the Python-based tooling already in use
+
+The walkthrough and examples focus on using Python scripts leveraging the Azure SDK to collect resource data and evaluate compliance based on CIS benchmarks and NIST CSF control. Future expansion may consider adding OPA policies for enhanced policy-as-code capabilities.
+
+That said, the project walkthrough does include instructions on how to install OPA, complete with screenshots, to familiarize user with the tool. Additionally, the prerequistites section above briefly shows how to install OPA for those interested in exploring policy-as-code outside the current project scope.
 
 # Cloud Security Posture Automation Walkthrough
 
@@ -119,29 +129,28 @@ Before you begin, ensure you have the following installed and configured:
   - Create Role Assignment (IAM) -- Assign the "Reader" role to yourself
     ![csap 2.1 setup 6](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%202.1%20setup%206.png)
 
-- **Use Azure Software Development Kit (SDK) in Python to list Azure resources, retrieve configuration details for key resource types (Storage, VMs, Network), and output the collected data to a JSON file for easy analysis.**
-  - Ensure to capture key resource details for CIS and NIST compliance-related fields. (MUST CAPTURE THESE DETAIL for Step 3: Compliance Rule Development)
-  - Create Python Script to list and retrieve resources. Output it into a JSON file.
-    - Script can be found in ``fetch_azure_resources.py`` in the repository
-    - JSON report output is saved as ``azure_resources.json`` in the repository
+- Use the Python SDK script (`fetch_azure_resources.py`) to collect detailed Azure resource configurations.
+- The script extracts critical security details needed for compliance checks:
+  - Storage Accounts: Encryption at rest and secure transfer settings
+  - Virtual Machines: Resource tags and public IP addresses associated via NICs
+  - Network Security Groups: Inbound rules including port and source IP ranges
+- Output is saved in `azure_resources.json` for subsequent compliance evaluation.
+- see the `fetch_azure_resources.py` script and the generated `azure_resources.json` file in the repoistory for implementation details
+  - The resource gathering script can be expanded to collect additional data if you plan to implement more compliance rules.
 
 ## Step 3: Compliance Rule Development
-- Implement CIS benchmark and NIST CSF rules in Python
-  - Key focus area for Azure resources:
-    - Storage Accounts:
-      - **Encryption at rest enabled:** Check ``encryption_enabled`` is ``True``
-      - **Secure transfer required:** Check ``secure_transfer_required`` is ``True``
-    - Virtual Machines
-      - **Proper tags assigned:** Check presence of tags like ``environment`` and ``owner``
-      - **No public exposure:** Check if public_ips list is empty
-        - Additonally cross-check NSGs for rules blocking inbound RDP(3389) and SSH(22)
-    - Network Security Groups
-      - No overly permissive inbound rules:
-        - Identify inbound rules with ``"access": "Allow"`` and ``"source_address_prefix": "0.0.0.0/0" on critical ports (e.g., 22, 3389, 443, 80)
+- Python functions evaluate compliance of the collected resources against CIS Benchmarks and NIST CSF controls.
+- Key rules include:
+  - Storage Accounts: Verify encryption and secure transfer are enabled
+  - Virtual Machines: Confirm required tags (`environment`, `owner`) and no public exposure via IPs or unblocked RDP/SSH ports
+  - Network Security Groups: Detect overly permissive inbound rules open to `0.0.0.0/0` on critical ports (22, 3389, 80, 443)
+- NSG rules cross-reference VM resource groups to validate port blocking.
+- Compliance logic can be tested against the JSON data using the provided Python module.
+- See the `compliance_rules.py` module in the repository for the detailed compliance evaluation functions
 
 
-- Write OPA policies for some rules (optional/parallel)
-- Test rule evaluation logic
+- **WIP** Write OPA policies for some rules (optional/parallel)
+- **WIP** Test rule evaluation logic
 
 ## Step 4: Reporting Module
 - Design JSON report structure
