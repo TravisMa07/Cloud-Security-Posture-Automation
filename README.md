@@ -148,8 +148,6 @@ That said, the project walkthrough does include instructions on how to install O
 - Compliance logic can be tested against the JSON data using the provided Python module.
 - See the `compliance_rules.py` module in the repository for the detailed compliance evaluation functions
 
-
-- **WIP** Write OPA policies for some rules (optional/parallel)
 - **WIP** Test rule evaluation logic
 
 ## Step 4: Reporting Module
