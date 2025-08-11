@@ -126,6 +126,17 @@ Before you begin, ensure you have the following installed and configured:
 
 ## Step 3: Compliance Rule Development
 - Implement CIS benchmark and NIST CSF rules in Python
+  - Key focus area for Azure resources:
+    - Storage Accounts:
+      - Ensure Encryption at rest is enabled
+      - Check if secure transfer required is enabled
+    - Virtual Machines
+      - Check if proper tags are assigned (e.g., environment, owner)
+      - Verify if VMs are not exposed publicly (e.g., no public IP or NSG blocking inbound RDP/SSH)
+    - Network Security Groups
+      - Identify if there are any overly permissive inbound security rules (like open to 0.0.0.0/0 on critical ports)
+
+
 - Write OPA policies for some rules (optional/parallel)
 - Test rule evaluation logic
 
