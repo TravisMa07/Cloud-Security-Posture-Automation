@@ -33,7 +33,7 @@ Query Azure resources (e.g., Storage Accounts, Network Security Groups, Virtual 
 Evaluate the collected configurations against CIS Benchmarks and NIST Cybersecurity Framework controls using Python functions
 
 **4. Generate Reports:**
-Produce detailed JSON reports for automated processing, highlighting misconfigurations, risk severity, and remediation advice.
+Produce detailed JSON reports for automated processing and human-readable HTML reports for security teams, highlighting misconfigurations, risk severity, and remediation advice.
 
 **5. Automate Remediation:**
 For critical findings like public blob containers or overly permissive network security group rules, leverage Terraform modules or Azure CLI commands to automatically remediate issues and improve security posture.
