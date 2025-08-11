@@ -120,6 +120,7 @@ Before you begin, ensure you have the following installed and configured:
     ![csap 2.1 setup 6](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%202.1%20setup%206.png)
 
 - **Use Azure Software Development Kit (SDK) in Python to list Azure resources, retrieve configuration details for key resource types (Storage, VMs, Network), and output the collected data to a JSON file for easy analysis.**
+  - Ensure to capture key resource details for CIS and NIST compliance-related fields. (MUST CAPTURE THESE DETAIL for Step 3: Compliance Rule Development)
   - Create Python Script to list and retrieve resources. Output it into a JSON file.
     - Script can be found in ``fetch_azure_resources.py`` in the repository
     - JSON report output is saved as ``azure_resources.json`` in the repository
@@ -128,13 +129,15 @@ Before you begin, ensure you have the following installed and configured:
 - Implement CIS benchmark and NIST CSF rules in Python
   - Key focus area for Azure resources:
     - Storage Accounts:
-      - Ensure Encryption at rest is enabled
-      - Check if secure transfer required is enabled
+      - **Encryption at rest enabled:** Check ``encryption_enabled`` is ``True``
+      - **Secure transfer required:** Check ``secure_transfer_required`` is ``True``
     - Virtual Machines
-      - Check if proper tags are assigned (e.g., environment, owner)
-      - Verify if VMs are not exposed publicly (e.g., no public IP or NSG blocking inbound RDP/SSH)
+      - **Proper tags assigned:** Check presence of tags like ``environment`` and ``owner``
+      - **No public exposure:** Check if public_ips list is empty
+        - Additonally cross-check NSGs for rules blocking inbound RDP(3389) and SSH(22)
     - Network Security Groups
-      - Identify if there are any overly permissive inbound security rules (like open to 0.0.0.0/0 on critical ports)
+      - No overly permissive inbound rules:
+        - Identify inbound rules with ``"access": "Allow"`` and ``"source_address_prefix": "0.0.0.0/0" on critical ports (e.g., 22, 3389, 443, 80)
 
 
 - Write OPA policies for some rules (optional/parallel)
