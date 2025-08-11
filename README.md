@@ -12,7 +12,7 @@ Cloud Security Posture Automation (CSPA) is a Python-based and Terraform-powered
 ## Technology Stack
 - **Cloud Providers:** Azure
 - **Languages:** Python, Terraform, Powershell, Azure CLI
-- **Security Tools:** Azure CLI, Open Policy Agent (OPA)
+- **Security Tools:** Azure CLI, Azure Web Interface
 - **Compliance Frameworks:** CIS Benchmarks, NIST CSF
 
 ## Architecture
