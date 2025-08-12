@@ -1,0 +1,45 @@
+{
+    "storage_accounts": [
+        {
+            "name": "cspastorage123",
+            "compliance": {
+                "encryption_enabled": true,
+                "secure_transfer_required": true
+            }
+        }
+    ],
+    "virtual_machines": [
+        {
+            "name": "CSPA-VM1",
+            "compliance": {
+                "environment_tags": false,
+                "owner_tag": false,
+                "has_public_ips": true,
+                "block_rdp": false,
+                "block_ssh": false
+            }
+        }
+    ],
+    "network_security_groups": [
+        {
+            "name": "CSPA-test-NSG",
+            "compliance": {
+                "permissive_rules_count": 0,
+                "permissive rules details": []
+            }
+        },
+        {
+            "name": "CSPA-VM1NSG",
+            "compliance": {
+                "permissive_rules_count": 1,
+                "permissive rules details": [
+                    {
+                        "name": "default-allow-ssh",
+                        "source_address": "*",
+                        "destination_port": "22"
+                    }
+                ]
+            }
+        }
+    ]
+}
