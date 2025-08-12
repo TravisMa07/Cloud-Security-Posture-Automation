@@ -1,6 +1,6 @@
 # Cloud-Security-Posture-Automation
 
-Cloud Security Posture Automation (CSPA) is a Python-based and Terraform-powered framework designed to automatically assess, remediate, and monitor cloud environment configurations for security best practices. This project focuses on identifying misconfigurations, enforcing compliance with CIS Benchmarks, and streamlining security governance across Azure.
+Cloud Security Posture Automation (CSPA) is a Python-based and Terraform-powered framework designed to automatically assess, remediate, and monitor cloud environment configurations for security best practices. This project focuses on identifying misconfigurations, enforcing compliance with CIS Benchmarks & NIST CSF, and streamlining security governance across Azure.
 
 ## Features
 - **Automated Security Audits:** Scans cloud resources for misconfigurations (e.g., storage account encryption and secure transfer settings, VM public exposure, overly permissive network security group rules)
@@ -12,7 +12,7 @@ Cloud Security Posture Automation (CSPA) is a Python-based and Terraform-powered
 ## Technology Stack
 - **Cloud Providers:** Azure
 - **Languages:** Python, Terraform, Powershell, Azure CLI
-- **Security Tools:** Azure CLI, Open Policy Agent (OPA)
+- **Security Tools:** Azure CLI, Azure Web Interface
 - **Compliance Frameworks:** CIS Benchmarks, NIST CSF
 
 ## Architecture
@@ -96,18 +96,22 @@ That said, the project walkthrough does include instructions on how to install O
   
 - Install Terraform
   - Install terraform at ``https://developer.hashicorp.com/terraform/install``. Install version for your machine and extract the .zip in its own dedicated folder on your drive.
+    
   ![csap 1.3.1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%201.3%201.png)
   - Under User Variables, click on Path then edit. Add new to your dedicated folder for terraform (``C:\terraform``)
+    
   ![csap 1.3.2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%201.3%202.png)
 - Install Open Policy Agent (OPA)
   - Install OPA at ``https://www.openpolicyagent.org/docs?current-os=windows#1-download-opa``. Install version for your machine and move the .exe file into its own dedicate folder on your drive.
+    
   ![csap 1.4.1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%201.4%201.png)
     - Under User Variables, click on path then edit. Add new to your dedicated folder for OPA (``C:\Tools\OPA``)
+      
   ![csap 1.4.2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%201.4%202.png)
 
 ## Step 2: Azure Resource Inventory & Data Collection
 - Create necessary Resources for Project Demostration
-  - Creating necessary resources includes: Resource Group, Storage Account, Virtual Machine, Network Security Group (NSG), Associate NSG with VM's Network Interfaces
+  - Creating necessary resources includes: Resource Group, Storage Account, Virtual Machine, Network Security Group (NSG), Associate NSG with VM's Network Interfaces Card (NIC)
     - Can either be done through Azure Web Interface and/or Azure CLI (demo will be through Azure CLI)
   - Resource Group Creation: name it anything
     
