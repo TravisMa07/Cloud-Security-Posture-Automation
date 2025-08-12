@@ -171,6 +171,17 @@ That said, the project walkthrough does include instructions on how to install O
   - a Terraform module to restrict SSH and RDP to your public IP
   - a Terraform module to add VM tags (environment and owner) by using Azure CLI via Terraform's ``null_resource``
   - a run folder to call the terraform modules with ``terraform init/plan/apply``
+
+- 4.2.1: Create Terraform folder layout
+  - head over to your Github Repo Root Directory
+    - Create the following Folders
+      - Can be done through Github Web Page or CLI (demo will be in CLI)
+![csap 4.2.1 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.1%201.png)
+
+![csap 4.2.1 2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.1%202.png)
+        
+- 4.2.2 Terraform Module: Restrict SSH/RDP to your public IP (NSG)
+- 4.2.3 Terraform Module: Tag the Virtual Machine (environmental and owenr)
  
 
 4.3: Create Python logic to dynamically trigger terraform remediation
