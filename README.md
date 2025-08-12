@@ -158,8 +158,15 @@ That said, the project walkthrough does include instructions on how to install O
 - Integrate the Terraform modules with Python scripts to dynamically trigger remediations based on the compliance report outputs
 - Verify that compliance issues are automatically resolved and that the infrastructure posture aligns with compliance rules following CIS Benchmarks and NIST CSF
 
-**WIP STEPS**
-4.1: Understanding compliance violations found in JSON and define remediation targets
+- 4.1: Understanding compliance violations found in JSON and define remediation targets
+  - ``environment_tags`` = ``false``, but need to be ``true``
+  - ``owner_tag`` = ``false``, but need to be ``true``
+  - ``block_rdp`` = ``false``, but need to be ``true`` for only **your current public IP**
+  - ``block_ssh`` = ``false``, but need to be ``true`` for only **your current public IP**
+  - CSPA-VM1NSG has one Permissive Rule: ``default-allow-ssh``
+    - **Remediation:** Update source_address to **your current public IP**
+![csap 4.1 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/CSAP%204.1%201.png)   
+
 4.2: Write Terraform Modules to fix each misconfiguration
 4.3: Create Python logic to dynamically trigger terraform remediation
 4.4: test end-to-end remediation
