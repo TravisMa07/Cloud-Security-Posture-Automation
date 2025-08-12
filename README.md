@@ -167,7 +167,12 @@ That said, the project walkthrough does include instructions on how to install O
     - **Remediation:** Update source_address to **your current public IP**
 ![csap 4.1 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/CSAP%204.1%201.png)   
 
-4.2: Write Terraform Modules to fix each misconfiguration
+- 4.2: Write Terraform Modules to fix each misconfiguration
+  - a Terraform module to restrict SSH and RDP to your public IP
+  - a Terraform module to add VM tags (environment and owner) by using Azure CLI via Terraform's ``null_resource``
+  - a run folder to call the terraform modules with ``terraform init/plan/apply``
+ 
+
 4.3: Create Python logic to dynamically trigger terraform remediation
 4.4: test end-to-end remediation
 
