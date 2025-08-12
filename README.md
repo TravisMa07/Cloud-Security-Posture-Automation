@@ -82,7 +82,7 @@ That said, the project walkthrough does include instructions on how to install O
 
 # Cloud Security Posture Automation Walkthrough
 
-## Step 1: Setup Development Environment & Azure Access
+## Step 1: Setup Development Environment and Azure Access
 - Install Python, create virtual env
   
   ![csap1.1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap1.1.png)
@@ -109,7 +109,7 @@ That said, the project walkthrough does include instructions on how to install O
       
   ![csap 1.4.2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%201.4%202.png)
 
-## Step 2: Azure Resource Inventory & Data Collection
+## Step 2: Azure Resource Inventory and Data Collection
 - Create necessary Resources for Project Demostration
   - Creating necessary resources includes: Resource Group, Storage Account, Virtual Machine, Network Security Group (NSG), Associate NSG with VM's Network Interfaces Card (NIC)
     - Can either be done through Azure Web Interface and/or Azure CLI (demo will be through Azure CLI)
@@ -135,41 +135,30 @@ That said, the project walkthrough does include instructions on how to install O
 
 - Use the Python SDK script (`fetch_azure_resources.py`) to collect detailed Azure resource configurations.
 - The script extracts critical security details needed for compliance checks:
-  - Storage Accounts: Encryption at rest and secure transfer settings
-  - Virtual Machines: Resource tags and public IP addresses associated via NICs
-  - Network Security Groups: Inbound rules including port and source IP ranges
+  - Storage Accounts: Checked to ensure encryption at rest and secure transfer are enabled, critical for protecting stored data.
+  - Virtual Machines: Validated for the presence of essential tags (`environment`, `owner`) to aid resource management and accountability, and to ensure they do not have public IPs or unblocked RDP/SSH ports without proper network security group (NSG) restrictions.
+  - Network Security Groups: detect overly permissive inbound rules that allow open access (source `0.0.0.0/0`) on sensitive ports such as SSH (22), RDP (3389), HTTP (80), and HTTPS (443).
 - Output is saved in `azure_resources.json` for subsequent compliance evaluation.
 - see the `fetch_azure_resources.py` script and the generated `azure_resources.json` file in the repoistory for implementation details
   - The resource gathering script can be expanded to collect additional data if you plan to implement more compliance rules.
 
-## Step 3: Compliance Rule Development
+## Step 3: Compliance Rule Implementation
 - Python functions evaluate compliance of the collected resources against CIS Benchmarks and NIST CSF controls.
 - Key rules include:
   - Storage Accounts: Verify encryption and secure transfer are enabled
   - Virtual Machines: Confirm required tags (`environment`, `owner`) and no public exposure via IPs or unblocked RDP/SSH ports
   - Network Security Groups: Detect overly permissive inbound rules open to `0.0.0.0/0` on critical ports (22, 3389, 80, 443)
-- NSG rules cross-reference VM resource groups to validate port blocking.
-- Compliance logic can be tested against the JSON data using the provided Python module.
-- See the `compliance_rules.py` module in the repository for the detailed compliance evaluation functions
+- The compliance evaluation includes cross-referencing NSG rules with VM resource groups to confirm proper port blocking, helping identify misconfigurations that expose resources to potential threats.
+- You can run and test the compliance logic using the `compliance_rules.py` in the repository against the collected data from `azure_resources.json` file. An example output report from the test can be found in the `compliance_report.json` highlighting non-compliant configurations, which will be use in the Automated Remediation Section.
 
-- **WIP** Test rule evaluation logic
 
-## Step 4: Reporting Module
-- Design JSON report structure
-- Implement report generation (JSON + HTML)
-- Test report clarity and completeness
-
-## Step 5: Automated Remediation
+## Step 4: Automated Remediation and Infrastructure as Code
 - Write Terraform modules for fixing common misconfigs
 - Integrate remediation trigger in Python
 - Test remediation end-to-end on test environment
 
-## Step 6: Continuous Monitoring & Scheduling
+## Step 5: Continuous Monitoring, Scheduling and Alerting
 - Set up cron jobs or Task Scheduler for periodic scans
 - Automate report generation and remediation triggers
 - Add alerting or notification (email/Slack) if desired
   
-## Step 7: Documentation & Final Touches
-- Write detailed guides and update README
-- Add screenshots and usage examples
-- Clean up code and add tests if possible
