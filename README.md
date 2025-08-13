@@ -154,6 +154,7 @@ That said, the project walkthrough does include instructions on how to install O
 
 ## Step 4: Automated Remediation and Infrastructure as Code
 - Automate the correction of detected compliance violations in `compliance_report.json` using Infrasturcture as Code (IaC) practices, specifically Terraform
+   - Terraform Files are wrriten in HashiCorp Configuration Language (HCL)
 - Develop Terraform modules that address misconfiguration found during compliance checks
 - Integrate the Terraform modules with Python scripts to dynamically trigger remediations based on the compliance report outputs
 - Verify that compliance issues are automatically resolved and that the infrastructure posture aligns with compliance rules following CIS Benchmarks and NIST CSF
