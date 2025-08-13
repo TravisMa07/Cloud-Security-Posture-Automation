@@ -248,14 +248,54 @@ That said, the project walkthrough does include instructions on how to install O
       - In terraform HCL, provider = the cloud platform (Azure, AWS, GCP, etc)
     - ``resource``
       - In terraform HCL, resource = a block of actual piece of infrastructure to create or manage
-    - ``tags = merge(...)``
-      - The ``merge()`` function in Terraform combines multiple maps (dictionaries) into a single map
-      - This is used to add or update specific tags while preserving existing tags on the VM
-        - Ensure that tagging changes do not unintentionally remove other tags already set on the VM
+    - ``tags = {...}``
+      - In terraform HCL, tag = sets or updates tags for the VM resource
   - Documentation:
     - https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine
 
+![csap 4.2.3 2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.3%202.png)
 
+- ``outputs.tf`` Contents:
+  - The ``outputs.tf`` file defines the output values that Terraform will show after applying the configuration from ``main.tf``
+  - Output important information about resources that been created or modified (tags applied, VM name, VM resource group)
+  - Syntax Explanation:
+      - ``output``
+        - In terraform HCL, output = name that can be reference after applying
+      - ``value``
+        - In terraform HCL, value = what's actually outputted. The ``.name``, ``.resource_group_name``, ``.tags`` attribute is use to reference the attributes in the main.tf (Virtual Machine Resource)
+        
+![csap 4.2.3 3](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.3%203.png)
+
+- 4.2.4 Terraform Root Module: Ties both ``NSG restriction module`` and ``VM tagging module``
+  - Create ``root directory`` under ``.../terraform`` and create files: ``variables.tf``, ``main.tf``, ``outputs.tf``
+  - Root directory files combines values from both modules into a single file (Ex: combing ``variables.tf`` from both module into one ``variables.tf``)
+    - The root directory act as the top-level Terraform configuration that:
+      - Calls each individual module with the right inputs (variables)
+      - Combines all the pieces together to build the full infrastructure configuration for deployment
+    - Why combine both modules into root directory?
+      - Modularity and Reusability
+        - Each module handle different task/logic (one to restrict NSG rules, other to manage VM tags). By breaking down the infrastructure into smaller modules:
+          -  it allow the ability to reuse the same module across different environments without rewriting code.
+          -  It allow the ability to maintain and update module independently (Ex: if you change the logic in the tagging module. It won't effect other environment beside the one you are working in), so changes in one module won't unintentionally affect others.
+
+- ``root directory`` and ``variables.tf``, ``main.tf``, ``outputs.tf`` creation:
+
+![csap 4.2.4 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.4%201.png)
+
+- ``variables.tf`` content:
+
+![csap 4.2.4 2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.4%202.png)
+
+- ``main.tf`` content:
+
+![csap 4.2.4 3](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.4%203.png)
+
+- ``outputs.tf`` content:
+
+![csap 4.2.4 4](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.4%204.png)
+
+
+  
 4.3: Create Python logic to dynamically trigger terraform remediation
 4.4: test end-to-end remediation
 
