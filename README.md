@@ -197,6 +197,19 @@ That said, the project walkthrough does include instructions on how to install O
 ![csap 4.2.2 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.2%201.png)
     
   - ``main.tf`` Contents:
+    - The ``main.tf`` file is the main logic that tells Terraform what infrastructure changes to make
+      - ``main.tf`` logic:
+        - Connect to your Azure NSG
+        - Create or update rules to allow SSH (22) and RDP (3389) only from your public IP
+        - Block access from everywhere else by default
+    - Syntax Explanation:
+      - ``provider``
+        - In terraform HCL, provider = the cloud platform (Azure, AWS, GCP, etc)
+      - ``resource``
+        - In terraform HCL, resource = a block of actual piece of infrastructure to create or manage
+        
+![csap4.2.2 2]()
+
   - ``outputs.tf`` Contents:
 
   
