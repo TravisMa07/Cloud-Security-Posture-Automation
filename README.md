@@ -280,7 +280,7 @@ That said, the project walkthrough does include instructions on how to install O
         -  it allow the ability to reuse the same module across different environments without rewriting code.
         -  It allow the ability to maintain and update module independently (Ex: if you change the logic in the tagging module. It won't effect other environment beside the one you are working in), so changes in one module won't unintentionally affect others.
     - Simplified Deployment:
-      - When runnig ``terraform apply`` at the root level, Terraform grasp the complete task for the infrastructure, including all the modules and their relationship. This prevent partial or out-of-sync deployments.
+      - When running ``terraform apply`` at the root level, Terraform grasp the complete task for the infrastructure, including all the modules and their relationship. This prevent partial or out-of-sync deployments.
 - Why Root Directory Summary:
   - The root module provides a single source of an up-to-date orchestration layer that connects all your modular pieces into one cohesive and manageable infrastructure codebase, ensuring that your deployments are consistent, maintainable, and scalable.
 
