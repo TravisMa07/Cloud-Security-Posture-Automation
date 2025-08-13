@@ -184,15 +184,14 @@ That said, the project walkthrough does include instructions on how to install O
         
 - 4.2.2 Terraform Module: Restrict SSH/RDP to your public IP (NSG)
   - Create Terraform file via path ``terraform\module\nsg_fix\variables.tf``, ``terraform\module\nsg_fix\main.tf``, ``terraform\module\nsg_fix\outputs.tf``
-    - can be name anything ``name.tf``
     - Use ``new-item`` to create terraform files
     - Use ``nano`` to write into files (must install nano via ``winget install GNU.nano``)
 
-  - ``variables.tf`` Contents:
-    - The ``variables.tf`` file defines input parameters that make the module reusable and customizeable across different environment
-      - Store configuration values (``RG name``, ``NSG name``, ``allowed CIDRs/IPs``, and ``rule priorities``)
-        - (Note: for rule priorities, lower the number = higher precedence. Range from: ``100-4096``)
-    - Instead of having specific values inside the Terraform configuration, declaring variables here and assign their values in ``main.tf`` allow for easy changes
+- ``variables.tf`` Contents:
+  - The ``variables.tf`` file defines input variables/parameters that make the module reusable and customizeable across different environment
+    - Store configuration values (``RG name``, ``NSG name``, ``allowed CIDRs/IPs``, and ``rule priorities``)
+      - (Note: for rule priorities, lower the number = higher precedence. Range from: ``100-4096``)
+  - Instead of having specific values inside the Terraform configuration, declaring variables here and assign their values in ``main.tf`` allow for easy changes
     
 ![csap 4.2.2 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.2%201.png)
     
@@ -202,27 +201,60 @@ That said, the project walkthrough does include instructions on how to install O
         - Connect to your Azure NSG
         - Create or update rules to allow SSH (22) and RDP (3389) only from your public IP
         - Block access from everywhere else by default
-    - Syntax Explaintation:
+    - Syntax Explanation:
       - ``provider``
         - In terraform HCL, provider = the cloud platform (Azure, AWS, GCP, etc)
       - ``resource``
         - In terraform HCL, resource = a block of actual piece of infrastructure to create or manage
-    - Documentation: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule
+    - Documentation:
+      - https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule
         
 ![csap 4.2.2 2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.2%202.png)
 
   - ``outputs.tf`` Contents:
     - The ``outputs.tf`` file defines the output values that Terraform will show after applying the configuration from ``main.tf``
     - Output important information about resources that been created or modified (rule name, etc)
-    - Syntax Explaintation:
+    - Syntax Explanation:
       - ``output``
         - In terraform HCL, output = name that can be reference after applying
       - ``value``
         - In terraform HCL, value = what's actually outputted. The ``.name`` attribute is use to reference the name attribute in the main.tf (NSG rules)
-![csap 4.2.2 3]()
+          
+![csap 4.2.2 3](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.2%203.png)
   
-- 4.2.3 Terraform Module: Tag the Virtual Machine (environmental and owenr)
- 
+- 4.2.3 Terraform Module: Tag the Virtual Machine (Environmental and Owner)
+  - Create Terraform file via path ``terraform\module\vm_tagging\variables.tf``, ``terraform\module\vm_tagging\main.tf``, ``terraform\module\vm_tagging\outputs.tf``
+    - Use ``new-item`` to create terraform files
+    - Use ``nano`` to write into files (must install nano via ``winget install GNU.nano``)
+
+- ``variables.tf`` Contents:
+  -  The ``variables.tf`` file defines input variables/parameters that make the module reusable and customizeable across different environment
+      - Store configuration values (``Resource Group Name``, ``Virtual Machine Name``, ``Environment Tag``, and ``Owner Tag``)
+  - ``environment_tag`` = value such as "development", "production", "testing", etc
+  - ``owner_tag``       = value such as "your name", "team name", etc
+  - Instead of having specific values inside the Terraform configuration, declaring variables here and assign their values in ``main.tf`` allow for easy changes
+
+![csap 4.2.3 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.3%201.png)
+
+- ``main.tf`` Contents:
+  - The ``main.tf`` file is the main logic that tells Terraform what infrastructure changes to make
+  - ``main.tf`` logic:
+    - Connect to your existing Azure Virtual Machine (VM) using resource group and VM name variables
+    - Create or update tags on the VM to set ``environment`` and ``owner`` tags with values provided
+    - Ensure the VM complies with tagging requirements defined in the compliance rules
+      - can't be = ``false``, neeed to be = ``true``
+  - Syntax Explanation
+    - ``provider``
+      - In terraform HCL, provider = the cloud platform (Azure, AWS, GCP, etc)
+    - ``resource``
+      - In terraform HCL, resource = a block of actual piece of infrastructure to create or manage
+    - ``tags = merge(...)``
+      - The ``merge()`` function in Terraform combines multiple maps (dictionaries) into a single map
+      - This is used to add or update specific tags while preserving existing tags on the VM
+        - Ensure that tagging changes do not unintentionally remove other tags already set on the VM
+  - Documentation:
+    - https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine
+
 
 4.3: Create Python logic to dynamically trigger terraform remediation
 4.4: test end-to-end remediation
