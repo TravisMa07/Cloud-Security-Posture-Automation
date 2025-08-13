@@ -207,8 +207,9 @@ That said, the project walkthrough does include instructions on how to install O
         - In terraform HCL, provider = the cloud platform (Azure, AWS, GCP, etc)
       - ``resource``
         - In terraform HCL, resource = a block of actual piece of infrastructure to create or manage
+    - Documentation: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule
         
-![csap4.2.2 2]()
+![csap4.2.2 2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.2%202.png)
 
   - ``outputs.tf`` Contents:
 
