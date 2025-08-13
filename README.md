@@ -202,17 +202,24 @@ That said, the project walkthrough does include instructions on how to install O
         - Connect to your Azure NSG
         - Create or update rules to allow SSH (22) and RDP (3389) only from your public IP
         - Block access from everywhere else by default
-    - Syntax Explanation:
+    - Syntax Explaintation:
       - ``provider``
         - In terraform HCL, provider = the cloud platform (Azure, AWS, GCP, etc)
       - ``resource``
         - In terraform HCL, resource = a block of actual piece of infrastructure to create or manage
     - Documentation: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule
         
-![csap4.2.2 2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.2%202.png)
+![csap 4.2.2 2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.2%202.png)
 
   - ``outputs.tf`` Contents:
-
+    - The ``outputs.tf`` file defines the output values that Terraform will show after applying the configuration from ``main.tf``
+    - Output important information about resources that been created or modified (rule name, etc)
+    - Syntax Explaintation:
+      - ``output``
+        - In terraform HCL, output = name that can be reference after applying
+      - ``value``
+        - In terraform HCL, value = what's actually outputted. The ``.name`` attribute is use to reference the name attribute in the main.tf (NSG rules)
+![csap 4.2.2 3]()
   
 - 4.2.3 Terraform Module: Tag the Virtual Machine (environmental and owenr)
  
