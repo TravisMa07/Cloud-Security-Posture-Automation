@@ -182,6 +182,16 @@ That said, the project walkthrough does include instructions on how to install O
 ![csap 4.2.1 2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.1%202.png)
         
 - 4.2.2 Terraform Module: Restrict SSH/RDP to your public IP (NSG)
+  - Create Terraform file via path ``terraform\module\nsg_fix\variables.tf``, ``terraform\module\nsg_fix\main.tf``, ``terraform\module\nsg_fix\outputs.tf``
+    - can be name anything ``name.tf``
+    - Use ``new-item`` to create terraform files
+    - Use ``nano`` to write into files (must install nano via ``winget install GNU.nano``)
+
+  - ``variables.tf`` Contents:
+  - ``main.tf`` Contents:
+  - ``outputs.tf`` Contents:
+
+  
 - 4.2.3 Terraform Module: Tag the Virtual Machine (environmental and owenr)
  
 
