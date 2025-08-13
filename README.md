@@ -82,7 +82,7 @@ That said, the project walkthrough does include instructions on how to install O
 
 # Cloud Security Posture Automation Walkthrough
 
-## Step 1: Setup Development Environment and Azure Access
+# Step 1: Setup Development Environment and Azure Access
 - Install Python, create virtual env
   
   ![csap1.1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap1.1.png)
@@ -109,7 +109,7 @@ That said, the project walkthrough does include instructions on how to install O
       
   ![csap 1.4.2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%201.4%202.png)
 
-## Step 2: Azure Resource Inventory and Data Collection
+# Step 2: Azure Resource Inventory and Data Collection
 - Create necessary Resources for Project Demostration
   - Creating necessary resources includes: Resource Group, Storage Account, Virtual Machine, Network Security Group (NSG), Associate NSG with VM's Network Interfaces Card (NIC)
     - Can either be done through Azure Web Interface and/or Azure CLI (demo will be through Azure CLI)
@@ -133,6 +133,7 @@ That said, the project walkthrough does include instructions on how to install O
   - Create Role Assignment (IAM) -- Assign the "Reader" role to yourself
     ![csap 2.1 setup 6](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%202.1%20setup%206.png)
 
+# Step 2: Resource Extraction via Python Script
 - Use the Python SDK script (`fetch_azure_resources.py`) to collect detailed Azure resource configurations.
 - The script extracts critical security details needed for compliance checks:
   - Storage Accounts: Checked to ensure encryption at rest and secure transfer are enabled, critical for protecting stored data.
@@ -142,8 +143,8 @@ That said, the project walkthrough does include instructions on how to install O
 - see the `fetch_azure_resources.py` script and the generated `azure_resources.json` file in the repoistory for implementation details
   - The resource gathering script can be expanded to collect additional data if you plan to implement more compliance rules.
 
-## Step 3: Compliance Rule Implementation
-- Python functions evaluate compliance of the collected resources against CIS Benchmarks and NIST CSF controls.
+# Step 3: Compliance Rule Implementation
+- Use the `compliance_rules.py` Python script to evaluate compliance of the collected resources against CIS Benchmarks and NIST CSF controls.
 - Key rules include:
   - Storage Accounts: Verify encryption and secure transfer are enabled
   - Virtual Machines: Confirm required tags (`environment`, `owner`) and no public exposure via IPs or unblocked RDP/SSH ports
@@ -152,40 +153,41 @@ That said, the project walkthrough does include instructions on how to install O
 - You can run and test the compliance logic using the `compliance_rules.py` in the repository against the collected data from `azure_resources.json` file. An example output report from the test can be found in the `compliance_report.json` highlighting non-compliant configurations, which will be use in the Automated Remediation Section.
 
 
-## Step 4: Automated Remediation and Infrastructure as Code
+# Step 4: Automated Remediation and Infrastructure as Code
 - Automate the correction of detected compliance violations in `compliance_report.json` using Infrasturcture as Code (IaC) practices, specifically Terraform
    - Terraform Files are wrriten in HashiCorp Configuration Language (HCL)
 - Develop Terraform modules that address misconfiguration found during compliance checks
 - Integrate the Terraform modules with Python scripts to dynamically trigger remediations based on the compliance report outputs
 - Verify that compliance issues are automatically resolved and that the infrastructure posture aligns with compliance rules following CIS Benchmarks and NIST CSF
 
-- 4.1: Understanding compliance violations found in JSON and define remediation targets
-  - ``environment_tags`` = ``false``, but need to be ``true``
-  - ``owner_tag`` = ``false``, but need to be ``true``
-  - ``block_rdp`` = ``false``, but need to be ``true`` for only **your current public IP**
-  - ``block_ssh`` = ``false``, but need to be ``true`` for only **your current public IP**
-  - CSPA-VM1NSG has one Permissive Rule: ``default-allow-ssh``
-    - **Remediation:** Update source_address to **your current public IP**
+## 4.1: Understanding compliance violations found in JSON and define remediation targets
+- ``environment_tags`` = ``false``, but need to be ``true``
+- ``owner_tag`` = ``false``, but need to be ``true``
+- ``block_rdp`` = ``false``, but need to be ``true`` for only **your current public IP**
+- ``block_ssh`` = ``false``, but need to be ``true`` for only **your current public IP**
+- CSPA-VM1NSG has one Permissive Rule: ``default-allow-ssh``
+  - **Remediation:** Update source_address to **your current public IP**
+  
 ![csap 4.1 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/CSAP%204.1%201.png)   
 
-- 4.2: Write Terraform Modules to fix each misconfiguration
-  - a Terraform module to restrict SSH and RDP to your public IP
-  - a Terraform module to add VM tags (environment and owner) by using Azure CLI via Terraform's ``null_resource``
-  - a run folder to call the terraform modules with ``terraform init/plan/apply``
+## 4.2: Write Terraform Modules to fix each misconfiguration
+- a Terraform module to restrict SSH and RDP to your public IP
+- a Terraform module to add VM tags (environment and owner)
+- a root-level to combine both modules for deployment
 
-- 4.2.1: Create Terraform folder layout
-  - head over to your Github Repo Root Directory
-    - Create the following Folders
-      - Can be done through Github Web Page or CLI (demo will be in CLI)
+## 4.2.1: Create Terraform folder layout
+- head over to your Github Repo Root Directory
+  - Create the following Folders
+    - Can be done through Github Web Page or CLI (demo will be in CLI)
 
 ![csap 4.2.1 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.1%201.png)
 
 ![csap 4.2.1 2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.1%202.png)
         
-- 4.2.2 Terraform Module: Restrict SSH/RDP to your public IP (NSG)
-  - Create Terraform file via path ``terraform\module\nsg_fix\variables.tf``, ``terraform\module\nsg_fix\main.tf``, ``terraform\module\nsg_fix\outputs.tf``
-    - Use ``new-item`` to create terraform files
-    - Use ``nano`` to write into files (must install nano via ``winget install GNU.nano``)
+## 4.2.2 Terraform Module: Restrict SSH/RDP to your public IP (NSG)
+- Create Terraform file via path ``terraform\module\nsg_fix\variables.tf``, ``terraform\module\nsg_fix\main.tf``, ``terraform\module\nsg_fix\outputs.tf``
+  - Use ``new-item`` to create terraform files
+  - Use ``nano`` to write into files (must install nano via ``winget install GNU.nano``)
 
 - ``variables.tf`` Contents:
   - The ``variables.tf`` file defines input variables/parameters that make the module reusable and customizeable across different environment
@@ -222,10 +224,10 @@ That said, the project walkthrough does include instructions on how to install O
           
 ![csap 4.2.2 3](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.2%203.png)
   
-- 4.2.3 Terraform Module: Tag the Virtual Machine (Environmental and Owner)
-  - Create Terraform file via path ``terraform\module\vm_tagging\variables.tf``, ``terraform\module\vm_tagging\main.tf``, ``terraform\module\vm_tagging\outputs.tf``
-    - Use ``new-item`` to create terraform files
-    - Use ``nano`` to write into files (must install nano via ``winget install GNU.nano``)
+## 4.2.3 Terraform Module: Tag the Virtual Machine (Environmental and Owner)
+- Create Terraform file via path ``terraform\module\vm_tagging\variables.tf``, ``terraform\module\vm_tagging\main.tf``, ``terraform\module\vm_tagging\outputs.tf``
+  - Use ``new-item`` to create terraform files
+  - Use ``nano`` to write into files (must install nano via ``winget install GNU.nano``)
 
 - ``variables.tf`` Contents:
   -  The ``variables.tf`` file defines input variables/parameters that make the module reusable and customizeable across different environment
@@ -266,21 +268,21 @@ That said, the project walkthrough does include instructions on how to install O
         
 ![csap 4.2.3 3](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.3%203.png)
 
-- 4.2.4 Terraform Root Module: Ties both ``NSG restriction module`` and ``VM tagging module``
-  - Create ``root directory`` under ``.../terraform`` and create files: ``variables.tf``, ``main.tf``, ``outputs.tf``
-  - Root directory files combines values from both modules into a single file (Ex: combing ``variables.tf`` from both module into one ``variables.tf``)
-    - The root directory act as the top-level Terraform configuration that:
-      - Calls each individual module with the right inputs (variables)
-      - Combines all the pieces together to build the full infrastructure configuration for deployment
-    - Why combine both modules into root directory?
-      - Modularity and Reusability
-        - Each module handle different task/logic (one to restrict NSG rules, other to manage VM tags). By breaking down the infrastructure into smaller modules:
-          -  it allow the ability to reuse the same module across different environments without rewriting code.
-          -  It allow the ability to maintain and update module independently (Ex: if you change the logic in the tagging module. It won't effect other environment beside the one you are working in), so changes in one module won't unintentionally affect others.
-      - Simplified Deployment:
-        - When runnig ``terraform apply`` at the root level, Terraform grasp the complete task for the infrastructure, including all the modules and their relationship. This prevent partial or out-of-sync deployments.
-  - Why Root Directory Summary:
-    - The root module provides a single source of an up-to-date orchestration layer that connects all your modular pieces into one cohesive and manageable infrastructure codebase, ensuring that your deployments are consistent, maintainable, and scalable.
+## 4.2.4 Terraform Root Module: Ties both ``NSG restriction module`` and ``VM tagging module``
+- Create ``root directory`` under ``.../terraform`` and create files: ``variables.tf``, ``main.tf``, ``outputs.tf``
+- Root directory files combines values from both modules into a single file (Ex: combing ``variables.tf`` from both module into one ``variables.tf``)
+  - The root directory act as the top-level Terraform configuration that:
+    - Calls each individual module with the right inputs (variables)
+    - Combines all the pieces together to build the full infrastructure configuration for deployment
+  - Why combine both modules into root directory?
+    - Modularity and Reusability
+      - Each module handle different task/logic (one to restrict NSG rules, other to manage VM tags). By breaking down the infrastructure into smaller modules:
+        -  it allow the ability to reuse the same module across different environments without rewriting code.
+        -  It allow the ability to maintain and update module independently (Ex: if you change the logic in the tagging module. It won't effect other environment beside the one you are working in), so changes in one module won't unintentionally affect others.
+    - Simplified Deployment:
+      - When runnig ``terraform apply`` at the root level, Terraform grasp the complete task for the infrastructure, including all the modules and their relationship. This prevent partial or out-of-sync deployments.
+- Why Root Directory Summary:
+  - The root module provides a single source of an up-to-date orchestration layer that connects all your modular pieces into one cohesive and manageable infrastructure codebase, ensuring that your deployments are consistent, maintainable, and scalable.
 
 - ``root directory`` and ``variables.tf``, ``main.tf``, ``outputs.tf`` creation:
 
@@ -299,9 +301,8 @@ That said, the project walkthrough does include instructions on how to install O
 ![csap 4.2.4 4](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.4%204.png)
 
 
-  
-4.3: Create Python logic to dynamically trigger terraform remediation
-4.4: test end-to-end remediation
+## 4.3: Test Terraform Modules Locally  
+
 
 
 ## Step 5: Continuous Monitoring, Scheduling and Alerting
