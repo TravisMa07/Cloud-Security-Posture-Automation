@@ -277,6 +277,8 @@ That said, the project walkthrough does include instructions on how to install O
         - Each module handle different task/logic (one to restrict NSG rules, other to manage VM tags). By breaking down the infrastructure into smaller modules:
           -  it allow the ability to reuse the same module across different environments without rewriting code.
           -  It allow the ability to maintain and update module independently (Ex: if you change the logic in the tagging module. It won't effect other environment beside the one you are working in), so changes in one module won't unintentionally affect others.
+      - Simplified Deployment:
+        - When runnig ``terraform apply`` at the root level, Terraform grasp the complete task for the infrastructure, including all the modules and their relationship. This prevent partial or out-of-sync deployments.
 
 - ``root directory`` and ``variables.tf``, ``main.tf``, ``outputs.tf`` creation:
 
