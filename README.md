@@ -284,6 +284,13 @@ That said, the project walkthrough does include instructions on how to install O
 - Why Root Directory Summary:
   - The root module provides a single source of an up-to-date orchestration layer that connects all your modular pieces into one cohesive and manageable infrastructure codebase, ensuring that your deployments are consistent, maintainable, and scalable.
 
+### DISCLAIMER 
+- ``variables.tf``, ``main.tf``, and ``outputs.tf``  CONTENTS can vary a lot depending on errors recieved during the testing section.
+- The code provided is not guaranteed to be completely error-free. It serves as a baseline to help structure your Terraform files.
+- This includes both the Terraform files in the root directory and the files in the module directories, including all modules.
+- it won't be uncommon if my code and your code don't match closely. Depending on errors, different methodology must be used
+  
+### Root Contents
 - ``root directory`` and ``variables.tf``, ``main.tf``, ``outputs.tf`` creation:
 
 ![csap 4.2.4 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.4%201.png)
@@ -302,8 +309,28 @@ That said, the project walkthrough does include instructions on how to install O
 
 
 ## 4.3: Test Terraform Modules Locally  
+- Navigate to the root module directory:
+  - ``cd ../terraform/root``
+- Initialize Terraform in the working directory:
+  - ``terraform init``
+- Generate an plan and provide values for variables when prompted:
+  - ``terraform plan``
+    - Plan help preview what Terraform will do without actually making any changes
+      - It's in read-only and is use to catch any errors before running ``terraform apply``
+- Apply the plan to provision resources:
+  - ``terraform apply``
+    - Executes the plan and makes actual changes to the environment
 
-
+## 4.4: Trigger Terraform Remediation with Python
+- Use python to execute Terraform Commands:
+  - Automate Terraform remediation directly from Python without manual CLI intervention
+    - Workflow: ``terraform init`` -> ``terraform plan`` -> ``terraform apply``
+- Automate remediation workflows by passing in variable values and controlling Terraform runs directly from Python
+  - Python passes variables values (``resource_group_name``, ``vm_name``, ``nsg_name``, ``allowed_cidrs``, ``environment_tag``, ``owner_tag``) to Terraform automatically
+  - This approach removes the need for manual CLI interaction and allows integration into automation pipelines alongside the other scripts (``fetch_azure_resoucres.py``, ``compliance_rules.py``)
+- The script capture output and errors for logging
+  - All terraform output and errors are captured and stored ``../terraform/runs/...``
+  - This allows for auditing, troubleshooting, and reporting without terminal inspection
 
 ## Step 5: Continuous Monitoring, Scheduling and Alerting
 - Set up cron jobs or Task Scheduler for periodic scans
