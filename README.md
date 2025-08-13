@@ -188,6 +188,13 @@ That said, the project walkthrough does include instructions on how to install O
     - Use ``nano`` to write into files (must install nano via ``winget install GNU.nano``)
 
   - ``variables.tf`` Contents:
+    - The ``variables.tf`` file defines input parameters that make the module reusable and customizeable across different environment
+      - Store configuration values (``RG name``, ``NSG name``, ``allowed CIDRs/IPs``, and ``rule priorities``)
+        - (Note: for rule priorities, lower the number = higher precedence. Range from: ``100-4096``)
+    - Instead of having specific values inside the Terraform configuration, declaring variables here and assign their values in ``main.tf`` allow for easy changes
+    
+![csap 4.2.2 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.2%201.png)
+    
   - ``main.tf`` Contents:
   - ``outputs.tf`` Contents:
 
