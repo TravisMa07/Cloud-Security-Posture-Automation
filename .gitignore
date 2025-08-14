@@ -1,0 +1,14 @@
+/terraform
+/terraform/modules
+*.tf
+/terraform/modules/nsg_fix
+terraform/modules/nsg_fix/main.tf
+terraform/modules/nsg_fix/outputs.tf
+terraform/modules/nsg_fix/variables.tf
+terraform/modules/vm_tagging/main.tf
+terraform/modules/vm_tagging/outputs.tf
+terraform/modules/vm_tagging/variables.tf
+terraform/root/main.tf
+terraform/root/outputs.tf
+terraform/root/variables.tf
+terraform/modules/vm_tagging/.terraform/providers/registry.terraform.io/hashicorp/azurerm/4.39.0/windows_amd64/terraform-provider-azurerm_v4.39.0_x5.exe 
