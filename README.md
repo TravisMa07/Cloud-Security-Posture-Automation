@@ -289,6 +289,7 @@ That said, the project walkthrough does include instructions on how to install O
 - The code provided is not guaranteed to be completely error-free. It serves as a baseline to help structure your Terraform files.
 - This includes both the Terraform files in the root directory and the files in the module directories, including all modules.
 - it won't be uncommon if my code and your code don't match closely. Depending on errors, different methodology must be used
+- **MY SCREENSHOT ARE NOT THE FINAL VERSION OF THE WORKING TERRAFORM FILES (COPYING IT EXACTLY WILL NOT RUN AND IT WILL PRODUCE BUGS)**
   
 ### Root Contents
 - ``root directory`` and ``variables.tf``, ``main.tf``, ``outputs.tf`` creation:
@@ -328,9 +329,6 @@ That said, the project walkthrough does include instructions on how to install O
 - Automate remediation workflows by passing in variable values and controlling Terraform runs directly from Python
   - Python passes variables values (``resource_group_name``, ``vm_name``, ``nsg_name``, ``allowed_cidrs``, ``environment_tag``, ``owner_tag``) to Terraform automatically
   - This approach removes the need for manual CLI interaction and allows integration into automation pipelines alongside the other scripts (``fetch_azure_resoucres.py``, ``compliance_rules.py``)
-- The script capture output and errors for logging
-  - All terraform output and errors are captured and stored ``../terraform/runs/...``
-  - This allows for auditing, troubleshooting, and reporting without terminal inspection
 
 ## Step 5: Continuous Monitoring, Scheduling and Alerting
 - Set up cron jobs or Task Scheduler for periodic scans
