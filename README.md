@@ -178,7 +178,7 @@ That said, the project walkthrough does include instructions on how to install O
 ## 4.2.1: Create Terraform folder layout
 - head over to your Github Repo Root Directory
   - Create the following Folders
-    - Can be done through Github Web Page or CLI (demo will be in CLI)
+    - Can be done through Windows File Structure or CLI (demo will be in CLI)
 
 ![csap 4.2.1 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.1%201.png)
 
