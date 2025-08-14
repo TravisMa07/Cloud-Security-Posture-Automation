@@ -335,7 +335,22 @@ That said, the project walkthrough does include instructions on how to install O
   - ``terraform_remediation.py``
 
 ## Step 5: Continuous Monitoring, Scheduling and Alerting
-- Set up cron jobs or Task Scheduler for periodic scans
-- Automate report generation and remediation triggers
-- Add alerting or notification (email/Slack) if desired
+- This step ensures the compliance scan and remediation scripts run automatically on a set schedule, eliminating the need for manual execution.
+- Azure Automation Runbooks is used to host and schedule the Python scripts in the cloud
+  - Alternatively, Task Scheduler (for Windows) or cron job (for Linux/Mac) can be used
+- For this demo, Azure Automation Runbook will be used.
+
+## Create Azure Automation Account
+- Azure Portal -> Search for Automation Account -> Create
+- ...
+
+## Upload Python Script to a Runbook
+- Automation Account -> Runbooks -> Create a Runbook
+- ...
+## Test the Runbook
+- Use the Test Pane to run it and confirm it works
+- ...
+## Schedule the Runbook
+- In the runbook -> Link to schedule
+- ....
   
