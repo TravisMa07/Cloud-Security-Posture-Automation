@@ -22,16 +22,28 @@ tfvars = {
 # The function takes a dictionary and returns a list of string in where each string is a CLI argument (-var="key=value") for Terraform commands
 def tfvars_to_vars(tfvars):
     cli_args = []
-    for key, value in tfvars.items():\
-    #   value
-        pass
+
+    # Iterate through the tfvars dictionary (both keys and values) and format them for Terraform CLI
+    for key, value in tfvars.items():
+
+        # insert dictionary's key and value into the Terraform CLI -var format
+                # EXAMPLE: if key="vm_name" and value="CSPA-VM1", it will produce -var=vm_name="CSPA-VM1"
+        cli_args.append(f'-var={key}="{value}"')
+
+    return cli_args
 
 
 tfvars_terraform_cli_args = tfvars_to_vars(tfvars)
 
 
+# Initialize the Terraform directory, plan the changes, and apply them using subprocess to call Terraform commands
 subprocess.run(["terraform", "init"], cwd=terraform_directory)
-subprocess.run(["terraform", "plan"] #value)
-subprocess.run(["terraform", "apply"] #value)
+
+# "+ tfvars_terraform_cli_args" inject your Python tfvars values into the Terraform "plan" command
+    # Example: output will be: terraform plan -var=vm_name="CSPA-VM1" -var=resource_group_name="CSPA-Project-RG" ...
+subprocess.run(["terraform", "plan"] + tfvars_terraform_cli_args, cwd=terraform_directory)
+
+# "-auto-approve" flag is used to skip the interactive approval/confirmation prompt when applying changes
+subprocess.run(["terraform", "apply", "-auto-approve"] + tfvars_terraform_cli_args, cwd=terraform_directory)
                
 print("Terraform commands executed successfully.")
