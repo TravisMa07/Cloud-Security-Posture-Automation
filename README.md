@@ -302,7 +302,7 @@ That said, the project walkthrough does include instructions on how to install O
 
 - ``main.tf`` content:
 
-![csap 4.2.4 3](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.4%203.png)
+![csap 4.2.4 3](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.3%203.png)
 
 - ``outputs.tf`` content:
 
