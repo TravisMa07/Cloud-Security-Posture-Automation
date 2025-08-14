@@ -204,8 +204,6 @@ That said, the project walkthrough does include instructions on how to install O
         - Create or update rules to allow SSH (22) and RDP (3389) only from your public IP
         - Block access from everywhere else by default
     - Syntax Explanation:
-      - ``provider``
-        - In terraform HCL, provider = the cloud platform (Azure, AWS, GCP, etc)
       - ``resource``
         - In terraform HCL, resource = a block of actual piece of infrastructure to create or manage
     - Documentation:
@@ -231,7 +229,7 @@ That said, the project walkthrough does include instructions on how to install O
 
 - ``variables.tf`` Contents:
   -  The ``variables.tf`` file defines input variables/parameters that make the module reusable and customizeable across different environment
-      - Store configuration values (``Resource Group Name``, ``Virtual Machine Name``, ``Environment Tag``, and ``Owner Tag``)
+      - Store configuration values (``Resource Group Name``, ``Virtual Machine Name``, ``nsg_name``, ``Environment Tag``, and ``Owner Tag``)
   - ``environment_tag`` = value such as "development", "production", "testing", etc
   - ``owner_tag``       = value such as "your name", "team name", etc
   - Instead of having specific values inside the Terraform configuration, declaring variables here and assign their values in ``main.tf`` allow for easy changes
@@ -241,17 +239,19 @@ That said, the project walkthrough does include instructions on how to install O
 - ``main.tf`` Contents:
   - The ``main.tf`` file is the main logic that tells Terraform what infrastructure changes to make
   - ``main.tf`` logic:
-    - Connect to your existing Azure Virtual Machine (VM) using resource group and VM name variables
-    - Create or update tags on the VM to set ``environment`` and ``owner`` tags with values provided
-    - Ensure the VM complies with tagging requirements defined in the compliance rules
-      - can't be = ``false``, neeed to be = ``true``
+    - Accepts variables for VM name, resource group name, environment tag, and owner tag
+    - Uses a Terraform ``null_resource`` to run a local shell command (a command execution. refer to Syntax Explanation: ``resource "null_resource"``)
+    - Executes ``az vm update`` to apply both environment and owner tags to the VM
+      - In basic terms, set the tags utilizing Azure CLI instead of terraform HCL
   - Syntax Explanation
-    - ``provider``
-      - In terraform HCL, provider = the cloud platform (Azure, AWS, GCP, etc)
-    - ``resource``
-      - In terraform HCL, resource = a block of actual piece of infrastructure to create or manage
-    - ``tags = {...}``
-      - In terraform HCL, tag = sets or updates tags for the VM resource
+    - ``resource "null_resource"``
+      - In terraform HCL, a ``null_resource`` doesn't manage a cloud resource directly. It's used to run commands/scripts as part of the Terraform workflow
+    - ``triggers = {...}``
+      - In terraform HCL, A ``triggers`` block tell Terraform when this ``null_resource`` should be re-run. If any trigger value changes, then Terraform run the script. In this case, the trigger variables are VM details and tag values.
+    - ``provisioner "local-exec"``
+      - In terraform HCL, ``provisioner "local-exec"`` runs a command locally on the machine executing Terraform.
+    - ``command = <<EOT ... EOT``
+      - In terramform HCL, the usage of ``command`` and ``EOT`` is for multi-line shell command known as Here-Doc Syntax. The command here calls the Azure CLI (az vm update) to set VM tags.
   - Documentation:
     - https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine
 
@@ -264,7 +264,7 @@ That said, the project walkthrough does include instructions on how to install O
       - ``output``
         - In terraform HCL, output = name that can be reference after applying
       - ``value``
-        - In terraform HCL, value = what's actually outputted. The ``.name``, ``.resource_group_name``, ``.tags`` attribute is use to reference the attributes in the main.tf (Virtual Machine Resource)
+        - In terraform HCL, value = what's actually outputted. The ``.name``, ``.resource_group_name``, ``.tags``, ``.nsg_name`` attribute is use to reference the attributes in the main.tf (Virtual Machine Resource)
         
 ![csap 4.2.3 3](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.3%203.png)
 
@@ -289,7 +289,6 @@ That said, the project walkthrough does include instructions on how to install O
 - The code provided is not guaranteed to be completely error-free. It serves as a baseline to help structure your Terraform files.
 - This includes both the Terraform files in the root directory and the files in the module directories, including all modules.
 - it won't be uncommon if my code and your code don't match closely. Depending on errors, different methodology must be used
-- **MY SCREENSHOT ARE NOT THE FINAL VERSION OF THE WORKING TERRAFORM FILES (COPYING IT EXACTLY WILL NOT RUN AND IT WILL PRODUCE BUGS)**
   
 ### Root Contents
 - ``root directory`` and ``variables.tf``, ``main.tf``, ``outputs.tf`` creation:
@@ -329,6 +328,11 @@ That said, the project walkthrough does include instructions on how to install O
 - Automate remediation workflows by passing in variable values and controlling Terraform runs directly from Python
   - Python passes variables values (``resource_group_name``, ``vm_name``, ``nsg_name``, ``allowed_cidrs``, ``environment_tag``, ``owner_tag``) to Terraform automatically
   - This approach removes the need for manual CLI interaction and allows integration into automation pipelines alongside the other scripts (``fetch_azure_resoucres.py``, ``compliance_rules.py``)
+- Why do this?
+  - Lets you automate CLI tools like Terraform, Git, Docker, or other system commands directly from Python
+  - Ability to integrate Terraform runs into bigger Python workflows without touching the shell
+- Script can be found under Repository:
+  - ``terraform_remediation.py``
 
 ## Step 5: Continuous Monitoring, Scheduling and Alerting
 - Set up cron jobs or Task Scheduler for periodic scans
