@@ -341,16 +341,57 @@ That said, the project walkthrough does include instructions on how to install O
 - For this demo, Azure Automation Runbook will be used.
 
 ## Create Azure Automation Account
-- Azure Portal -> Search for Automation Account -> Create
-- ...
+- On the Azure Website/Portal, search up "Automation Accounts" and click "+create"
+- Enter your Subscription, Resource Group (CSPA-Project-RG), an Automation Account Name (name of it anything), and select Region (East US)
+
+![csap 5.1.1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%205.1%201.png)
 
 ## Upload Python Script to a Runbook
-- Automation Account -> Runbooks -> Create a Runbook
-- ...
+- Under Automation Account, create new Runbook"+Create"
+
+![csap 5.2.1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%205.1%201.png)
+
+- Under the Overview Tab of your Runbook, click on "+ Edit" and then "Edit in Portal"
+  
+![csap 5.2.2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%205.2%202.png)
+
+- In the Editor, copy and paste the code from the ``terraform_remediation.py`` into the editor. Then click on "Save" and "Publish"
+  
+![csap 5.2.3](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%205.2%203.png)
+
 ## Test the Runbook
-- Use the Test Pane to run it and confirm it works
-- ...
+- Under the Overview tab of your runbook, click on "Start"
+- An error should occur if running on the Host Machine (your personal computer)
+  - Why?
+    - This Error occur due to Azure Automation Runbooks not having access to your local filesystem and most likely not having Terraform installed by default
+      - Which mean it don't have access to your local directory ``../terraform/root`` and the process in *Step 1* for the installation of Terraform
+        - It's looking for a folder relative to the runbook sandbox container and ``subprocess.run(["terraform",...])`` can't be execute
+  -How to Fix
+
+- **OPTION 1 (Primary Option) - Use Hybrid Runbook Worker**
+  - Keep the same approach with the script (python calling Terraform CLI), a Azure VM must have Terraform installed, and Access to your ``.tf`` files
+  - Hybrid Runbook Worker:
+    - Spin up an Azure VM (the one we created for the project is perfect for this scenario)
+    - Install Terraform on it
+    - Place your Terraform folders(``../terraform/...``) onto the VM
+    - Register the VM as a **Hybrid Runbook Worker** in your **Automation Acccount**
+    - When running the playbook, select **Run on Hybrid Worker** instead of "Azure"
+    
+- **OPTION 2 (Alternative Option, Not Recommended for this Project) - Use Azure SDK in the Python Script instead of Terraform CLI**
+  - Instead of running ``subprocess.run(["terraform",...])``, the script can be rewritten in Python using the Azure SDK
+    - Similiarly to the ``fetch_azure_resources.py`` (``azure-mgmt-resource``, ``azure-mgmt-network``, etc)
+  - This will make it possibly for the script to run fine in the Azure Automation Sandbox (NO Terraform needed)
+    - This make it 100% cloud-native
+
+*DISCLAIMER: This Walkthrough, wont show the details of how to fix this error (Option 1 and 2). Bullet points been provided on how to proceed with solving the error. but an in-depth guide with verbose details and screenshot won't be provided*
+
+![csap5.3.1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%205.3%201.png)
+
 ## Schedule the Runbook
-- In the runbook -> Link to schedule
-- ....
+- Under the Overview tab of your runbook, click "Link to schedule", "Schedule", then "+ Add a schedule"
+- Fill in the name and description
+- Set the "Recurrence" to Recurring, and "recur every" to your desire time
+- Create Schedule
+
+![csap 5.4.1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%205.4%201.png)
   
