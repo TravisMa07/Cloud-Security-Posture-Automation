@@ -85,29 +85,29 @@ That said, the project walkthrough does include instructions on how to install O
 # Step 1: Setup Development Environment and Azure Access
 - Install Python, create virtual env
   
-  ![csap1.1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap1.1.png)
+  ![csap1.1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap1.1.png)
 - Install Azure CLI and authenticate
 
-  ![csap1.2 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%201.2%201.png)
+  ![csap1.2 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%201.2%201.png)
   
   - In order to ``az login``, a Azure Account is needed. Create a free Azure Account at ``https://azure.microsoft.com/en-us/pricing/purchase-options/azure-account?icid=azurefreeaccount`` Require Credit Card Information
   
-  ![csap 1.2 2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%201.2%202.png)
+  ![csap 1.2 2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%201.2%202.png)
   
 - Install Terraform
   - Install terraform at ``https://developer.hashicorp.com/terraform/install``. Install version for your machine and extract the .zip in its own dedicated folder on your drive.
     
-  ![csap 1.3.1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%201.3%201.png)
+  ![csap 1.3.1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%201.3%201.png)
   - Under User Variables, click on Path then edit. Add new to your dedicated folder for terraform (``C:\terraform``)
     
-  ![csap 1.3.2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%201.3%202.png)
+  ![csap 1.3.2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%201.3%202.png)
 - Install Open Policy Agent (OPA)
   - Install OPA at ``https://www.openpolicyagent.org/docs?current-os=windows#1-download-opa``. Install version for your machine and move the .exe file into its own dedicate folder on your drive.
     
-  ![csap 1.4.1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%201.4%201.png)
+  ![csap 1.4.1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%201.4%201.png)
     - Under User Variables, click on path then edit. Add new to your dedicated folder for OPA (``C:\Tools\OPA``)
       
-  ![csap 1.4.2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%201.4%202.png)
+  ![csap 1.4.2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%201.4%202.png)
 
 # Step 2: Azure Resource Inventory and Data Collection
 - Create necessary Resources for Project Demostration
@@ -115,23 +115,23 @@ That said, the project walkthrough does include instructions on how to install O
     - Can either be done through Azure Web Interface and/or Azure CLI (demo will be through Azure CLI)
   - Resource Group Creation: name it anything
     
-    ![csap 2.1 setup 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%202.1%20setup%201.png)
+    ![csap 2.1 setup 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%202.1%20setup%201.png)
     
   - Storage Account Creation: name it anything, select Resource Group just created, Stock-Keeping Unit (SKU) select Standard-LRS (Locally Redundant Storage, Support Account Kinds: Storage, BlobStorage, StorageV2)
     
-    ![csap 2.1 setup 2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%202.1%20setup%202.png)
+    ![csap 2.1 setup 2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%202.1%20setup%202.png)
     
   - Virtual Machine Creation: Choose any supported Ubuntu image (e.g., Ubuntu2204). If you encounter errors during VM creation, try selecting a different VM --size .
  
-    ![csap 2.1 setup 3](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%202.1%20setup%203.png)
+    ![csap 2.1 setup 3](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%202.1%20setup%203.png)
   - Network Security Group (NSG) Creation
-    ![csap 2.1 setup 4](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%202.1%20setup%204.png)
+    ![csap 2.1 setup 4](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%202.1%20setup%204.png)
     
   - Assign NSG to VM's Network Interface
-    ![csap 2.1 setup 5](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%202.1%20setup%205.png)
+    ![csap 2.1 setup 5](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%202.1%20setup%205.png)
     
   - Create Role Assignment (IAM) -- Assign the "Reader" role to yourself
-    ![csap 2.1 setup 6](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%202.1%20setup%206.png)
+    ![csap 2.1 setup 6](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%202.1%20setup%206.png)
 
 # Step 2: Resource Extraction via Python Script
 - Use the Python SDK script (`fetch_azure_resources.py`) to collect detailed Azure resource configurations.
@@ -168,7 +168,7 @@ That said, the project walkthrough does include instructions on how to install O
 - CSPA-VM1NSG has one Permissive Rule: ``default-allow-ssh``
   - **Remediation:** Update source_address to **your current public IP**
   
-![csap 4.1 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/CSAP%204.1%201.png)   
+![csap 4.1 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/CSAP%204.1%201.png)   
 
 ## 4.2: Write Terraform Modules to fix each misconfiguration
 - a Terraform module to restrict SSH and RDP to your public IP
@@ -180,9 +180,9 @@ That said, the project walkthrough does include instructions on how to install O
   - Create the following Folders
     - Can be done through Windows File Structure or CLI (demo will be in CLI)
 
-![csap 4.2.1 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.1%201.png)
+![csap 4.2.1 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%204.2.1%201.png)
 
-![csap 4.2.1 2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.1%202.png)
+![csap 4.2.1 2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%204.2.1%202.png)
         
 ## 4.2.2 Terraform Module: Restrict SSH/RDP to your public IP (NSG)
 - Create Terraform file via path ``terraform\module\nsg_fix\variables.tf``, ``terraform\module\nsg_fix\main.tf``, ``terraform\module\nsg_fix\outputs.tf``
@@ -195,7 +195,7 @@ That said, the project walkthrough does include instructions on how to install O
       - (Note: for rule priorities, lower the number = higher precedence. Range from: ``100-4096``)
   - Instead of having specific values inside the Terraform configuration, declaring variables here and assign their values in ``main.tf`` allow for easy changes
     
-![csap 4.2.2 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.2%201.png)
+![csap 4.2.2 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%204.2.2%201.png)
     
   - ``main.tf`` Contents:
     - The ``main.tf`` file is the main logic that tells Terraform what infrastructure changes to make
@@ -209,7 +209,7 @@ That said, the project walkthrough does include instructions on how to install O
     - Documentation:
       - https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule
         
-![csap 4.2.2 2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.2%202.png)
+![csap 4.2.2 2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%204.2.2%202.png)
 
   - ``outputs.tf`` Contents:
     - The ``outputs.tf`` file defines the output values that Terraform will show after applying the configuration from ``main.tf``
@@ -220,7 +220,7 @@ That said, the project walkthrough does include instructions on how to install O
       - ``value``
         - In terraform HCL, value = what's actually outputted. The ``.name`` attribute is use to reference the name attribute in the main.tf (NSG rules)
           
-![csap 4.2.2 3](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.2%203.png)
+![csap 4.2.2 3](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%204.2.2%203.png)
   
 ## 4.2.3 Terraform Module: Tag the Virtual Machine (Environmental and Owner)
 - Create Terraform file via path ``terraform\module\vm_tagging\variables.tf``, ``terraform\module\vm_tagging\main.tf``, ``terraform\module\vm_tagging\outputs.tf``
@@ -234,7 +234,7 @@ That said, the project walkthrough does include instructions on how to install O
   - ``owner_tag``       = value such as "your name", "team name", etc
   - Instead of having specific values inside the Terraform configuration, declaring variables here and assign their values in ``main.tf`` allow for easy changes
 
-![csap 4.2.3 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.3%201.png)
+![csap 4.2.3 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%204.2.3%201.png)
 
 - ``main.tf`` Contents:
   - The ``main.tf`` file is the main logic that tells Terraform what infrastructure changes to make
@@ -255,7 +255,7 @@ That said, the project walkthrough does include instructions on how to install O
   - Documentation:
     - https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine
 
-![csap 4.2.3 2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.3%202.png)
+![csap 4.2.3 2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%204.2.3%202.png)
 
 - ``outputs.tf`` Contents:
   - The ``outputs.tf`` file defines the output values that Terraform will show after applying the configuration from ``main.tf``
@@ -266,7 +266,7 @@ That said, the project walkthrough does include instructions on how to install O
       - ``value``
         - In terraform HCL, value = what's actually outputted. The ``.name``, ``.resource_group_name``, ``.tags``, ``.nsg_name`` attribute is use to reference the attributes in the main.tf (Virtual Machine Resource)
         
-![csap 4.2.3 3](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.3%203.png)
+![csap 4.2.3 3](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%204.2.3%203.png)
 
 ## 4.2.4 Terraform Root Module: Ties both ``NSG restriction module`` and ``VM tagging module``
 - Create ``root directory`` under ``.../terraform`` and create files: ``variables.tf``, ``main.tf``, ``outputs.tf``
@@ -293,19 +293,19 @@ That said, the project walkthrough does include instructions on how to install O
 ### Root Contents
 - ``root directory`` and ``variables.tf``, ``main.tf``, ``outputs.tf`` creation:
 
-![csap 4.2.4 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.4%201.png)
+![csap 4.2.4 1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%204.2.4%201.png)
 
 - ``variables.tf`` content:
 
-![csap 4.2.4 2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.4%202.png)
+![csap 4.2.4 2](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%204.2.4%202.png)
 
 - ``main.tf`` content:
 
-![csap 4.2.4 3](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.4%203.png)
+![csap 4.2.4 3](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%204.2.4%203.png)
 
 - ``outputs.tf`` content:
 
-![csap 4.2.4 4](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/csap%204.2.4%204.png)
+![csap 4.2.4 4](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%204.2.4%204.png)
 
 
 ## 4.3: Test Terraform Modules Locally  
