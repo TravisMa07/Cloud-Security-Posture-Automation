@@ -334,10 +334,10 @@ That said, the project walkthrough does include instructions on how to install O
 - Script can be found under Repository:
   - ``terraform_remediation.py``
 
-## Step 5: Continuous Monitoring, Scheduling and Alerting
+# Step 5: Continuous Monitoring, Scheduling and Alerting
 - This step ensures the compliance scan and remediation scripts run automatically on a set schedule, eliminating the need for manual execution.
 - Azure Automation Runbooks is used to host and schedule the Python scripts in the cloud
-  - Alternatively, Task Scheduler (for Windows) or cron job (for Linux/Mac) can be used
+  - Alternatively, Task Scheduler or cron job can be used
 - For this demo, Azure Automation Runbook will be used.
 
 ## Create Azure Automation Account
@@ -395,3 +395,18 @@ That said, the project walkthrough does include instructions on how to install O
 
 ![csap 5.4.1](https://raw.githubusercontent.com/TravisMa07/Cloud-Security-Posture-Automation/refs/heads/main/Walkthrough-Screenshots/csap%205.4%201.png)
   
+## Optional Enhancement
+While the core framework for Step 5: Continuous Monitoring, Scheduling and Alerting is complete, there's many optional features that can furuther strengthen automation and visibility
+- **Alerting & Notifcations:** Integrate with Slack, Microsoft Teams, or email for real-time compliance alerts
+- **SOAR Integration:** Connect with a SOAR platform to trigger automated incident response workflows
+- **SIEM Integration:** Forward JSON reports to a SIEM platform for centralized monitoring, dashboards, and analysis
+- **Advance Scheduling:** Implement conditional scheduling (e.g., run scans only after resource deploymen)
+
+# Conclusion
+This project demonstrates the design and implementation of an end-to-end cloud security compliance automation framework. In the walkthrough, by completing the steps and combining the following: Python scripting, Terraform, and Azure Automation Runbooks, the framework is able to:
+
+- Enforce security standards across cloud infrastructure
+- Automate remediation of high-risk misconfiguration
+- Contiinuously monitor compliance posture on a scheduled basis
+
+The end result is a scalable, automation-driven solution that reduces manual effort, strengthens cloud governance, and provides a foundation for future enhancements to security, compliance, and operational efficiency across cloud environments.
